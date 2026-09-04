@@ -1,0 +1,581 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* Bricolage Grotesque — arquivos oficiais locais (WOFF2) */
+@font-face {
+  font-family: "Bricolage";
+  src: url("/__l5e/assets-v1/73d1f100-883b-4e39-a1c4-3c79bc8aca91/BricolageGrotesque-ExtraLight.woff2")
+    format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage";
+  src: url("/__l5e/assets-v1/5e3b7fce-25eb-4791-b069-670e3711ba94/BricolageGrotesque-Light.woff2")
+    format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage";
+  src: url("/__l5e/assets-v1/aae417a8-51e0-4a4d-b3bb-628244db0321/BricolageGrotesque-Regular.woff2")
+    format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage";
+  src: url("/__l5e/assets-v1/98f5a371-9053-4847-841a-af13ac600a41/BricolageGrotesque-Medium.woff2")
+    format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage";
+  src: url("/__l5e/assets-v1/71f33dad-2ff0-412d-80a3-d1145c0bfa16/BricolageGrotesque-SemiBold.woff2")
+    format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage";
+  src: url("/__l5e/assets-v1/46928747-8ad1-4ffd-a7fb-69078d742256/BricolageGrotesque-Bold.woff2")
+    format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Bricolage";
+  src: url("/__l5e/assets-v1/0e6a9633-932b-47ce-be7f-ec6197caba39/BricolageGrotesque-ExtraBold.woff2")
+    format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-sky-header: var(--sky-header);
+  --color-roxo: var(--roxo);
+  --color-amarelo: var(--amarelo);
+  --color-coral: var(--coral);
+  --color-verde: var(--verde);
+  --color-footer: var(--footer);
+  --color-marrom: var(--marrom);
+  --color-azul-camp: var(--azul-camp);
+  --color-magenta-camp: var(--magenta-camp);
+  --color-laranja-camp: var(--laranja-camp);
+  --color-campaign-blue: var(--campaign-blue);
+  --color-campaign-deep-purple: var(--campaign-deep-purple);
+  --color-campaign-orange: var(--campaign-orange);
+  --color-campaign-purple: var(--campaign-purple);
+  --color-campaign-burnt-orange: var(--campaign-burnt-orange);
+  --color-campaign-green: var(--campaign-green);
+  --color-campaign-surface: var(--campaign-surface);
+  --color-campaign-surface-muted: var(--campaign-surface-muted);
+  --color-campaign-on-light: var(--campaign-on-light);
+  --color-campaign-on-dark: var(--campaign-on-dark);
+  --color-campaign-paper: var(--campaign-paper);
+  --color-campaign-mist: var(--campaign-mist);
+  --color-campaign-border: var(--campaign-border);
+  --font-display: "Bricolage", Arial, sans-serif;
+  --font-body: "Bricolage", Arial, sans-serif;
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.25 0.05 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.25 0.05 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.25 0.05 260);
+  --primary: oklch(0.52 0.19 258);
+  --primary-foreground: oklch(0.99 0.005 250);
+  --secondary: oklch(0.94 0.03 245);
+  --secondary-foreground: oklch(0.3 0.08 260);
+  --muted: oklch(0.96 0.02 245);
+  --muted-foreground: oklch(0.5 0.05 260);
+  --accent: oklch(0.9 0.06 320);
+  --accent-foreground: oklch(0.35 0.15 320);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(0.92 0.02 250);
+  --input: oklch(0.92 0.02 250);
+  --ring: oklch(0.52 0.19 258);
+  /* Campanha Matrículas 2027 — tokens base */
+  --campaign-blue: #0093cd;
+  --campaign-deep-purple: #2a1782;
+  --campaign-orange: #f6a807;
+  --campaign-purple: #684690;
+  --campaign-burnt-orange: #d37e26;
+  --campaign-green: #64a33d;
+  /* Superfícies, textos, bordas e estados */
+  --campaign-white: #ffffff;
+  --campaign-surface: #ffffff;
+  --campaign-surface-muted: #e4f3fa;
+  /* Superfícies claras de respiro (capítulos claros do scroll) */
+  --campaign-paper: #fbf7ef;
+  --campaign-mist: #f1f6fb;
+  --campaign-on-light: var(--campaign-deep-purple);
+  --campaign-on-dark: #ffffff;
+  --campaign-border: color-mix(in srgb, var(--campaign-deep-purple) 15%, transparent);
+  --campaign-hover: color-mix(in srgb, var(--campaign-blue) 85%, black);
+  --campaign-active: color-mix(in srgb, var(--campaign-blue) 70%, black);
+  --campaign-focus-ring: var(--campaign-blue);
+  /* Brand tokens — Identidade oficial Campanha Matrículas 2027 */
+  --sky-header: var(--campaign-surface-muted);
+  --roxo: var(--campaign-purple);
+  --amarelo: var(--campaign-orange);
+  --coral: var(--campaign-burnt-orange);
+  --verde: var(--campaign-green);
+  --footer: var(--campaign-deep-purple);
+  --marrom: var(--campaign-deep-purple);
+  --azul-camp: var(--campaign-blue);
+  --magenta-camp: var(--campaign-purple);
+  --laranja-camp: var(--campaign-orange);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-body);
+  }
+}
+
+@utility highlighter-roxo {
+  background-image: linear-gradient(
+    100deg,
+    transparent 1%,
+    var(--roxo) 3%,
+    var(--roxo) 97%,
+    transparent 99%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 88%;
+  background-position: 0 62%;
+  padding-inline: 0.2em;
+  color: #fff;
+  border-radius: 0.2em;
+}
+
+/* ==========================================================================
+   HERO — Campanha Matrículas 2027 (três universos)
+   ========================================================================== */
+
+.hero-shell {
+  --hero-ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Backgrounds oficiais: crossfade + micro-escala */
+.hero-bg {
+  opacity: 0;
+  transform: scale(1.06);
+  transition:
+    opacity 700ms var(--hero-ease),
+    transform 1100ms var(--hero-ease);
+  will-change: opacity, transform;
+}
+.hero-bg.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Fotografia: troca suave, sem máscara que corte sombras/extremidades */
+.hero-aluno {
+  opacity: 0;
+  transform-origin: center bottom;
+  transform: translateY(1.5%) scale(0.985);
+  transition:
+    transform 700ms var(--hero-ease),
+    opacity 420ms linear;
+  pointer-events: none;
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.22));
+  will-change: transform, opacity;
+}
+.hero-aluno.is-active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Headline / tags: troca curta por máscara */
+.hero-mask {
+  overflow: hidden;
+}
+@keyframes hero-mask-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(8%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+.hero-mask-item {
+  animation: hero-mask-in 620ms var(--hero-ease) both;
+}
+@keyframes hero-swap-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.hero-swap {
+  animation: hero-swap-in 460ms var(--hero-ease) backwards;
+}
+
+/* Entrada inicial escalonada */
+@keyframes hero-enter {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 22% 0);
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+.hero-in {
+  animation: hero-enter 620ms var(--hero-ease) both;
+}
+.hero-in-1 {
+  animation-delay: 60ms;
+}
+.hero-in-2 {
+  animation-delay: 140ms;
+}
+.hero-in-3 {
+  animation-delay: 240ms;
+}
+.hero-in-4 {
+  animation-delay: 330ms;
+}
+.hero-in-5 {
+  animation-delay: 420ms;
+}
+
+/* CTA principal da hero — a própria arte "Matrículas Abertas" */
+.hero-selo-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  padding: 1.25rem;
+  margin: -1.25rem;
+  overflow: visible;
+  cursor: pointer;
+  background: none;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.hero-selo-cta::before,
+.hero-selo-cta::after {
+  content: none !important;
+}
+.hero-selo-cta:hover,
+.hero-selo-cta:focus,
+.hero-selo-cta:focus-visible,
+.hero-selo-cta:active {
+  background: none;
+  border: 0;
+  outline: none;
+  box-shadow: none;
+  text-decoration: none;
+  transform: none;
+}
+.hero-selo-cta img {
+  position: relative;
+  z-index: 1;
+    transform-origin: center bottom;
+    transform: translateY(0) scale(1);
+    filter: brightness(1) saturate(1);
+    will-change: transform, filter;
+    transition:
+    transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.hero-selo-cta:hover img,
+.hero-selo-cta:focus-visible img {
+  transform: translateY(-3px) scale(1.02);
+  filter: brightness(1.05) saturate(1.08);
+}
+
+.hero-selo-shadow {
+  position: absolute;
+  z-index: 0;
+  inset: 28% 12% 8%;
+  border-radius: 50%;
+  background: rgba(15, 8, 55, 0.38);
+  filter: blur(18px);
+  opacity: 0.16;
+  transform: translateY(10px) scale(0.94);
+  transition:
+    opacity 420ms cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 420ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  pointer-events: none;
+}
+
+.hero-selo-cta:hover .hero-selo-shadow,
+.hero-selo-cta:focus-visible .hero-selo-shadow {
+  opacity: 0.34;
+  transform: translateY(14px) scale(1.02);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hero-selo-cta:hover img,
+  .hero-selo-cta:focus-visible img {
+    transform: translateY(-5px) scale(1.06);
+  }
+}
+.hero-selo-cta:focus-visible img {
+  filter: brightness(1.08) saturate(1.1);
+}
+.hero-selo-cta:active img {
+  transform: translateY(-2px) scale(0.98);
+}
+
+/* Seletor de segmento — tags oficiais como botões */
+.hero-tagsel {
+  overflow: visible;
+  padding: 0.5rem 0.25rem 0.9rem;
+}
+.hero-tagbtn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  padding: 0.45rem 0.6rem 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0.6;
+  filter: saturate(0.6);
+  transition:
+    opacity 300ms var(--hero-ease),
+    filter 300ms var(--hero-ease),
+    transform 300ms var(--hero-ease);
+}
+.hero-tagbtn:hover {
+  opacity: 0.88;
+  filter: saturate(0.92);
+}
+.hero-tagbtn.is-active {
+  opacity: 1;
+  filter: none;
+}
+.hero-tagbtn.is-active::after {
+  content: "";
+  position: absolute;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: 0.15rem;
+  height: 3px;
+  border-radius: 2px;
+  background: #fff;
+}
+.hero-tagbtn:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 3px;
+}
+
+/* Desenhos oficiais em traço branco */
+.hero-doodle {
+  pointer-events: none;
+  height: auto;
+  object-fit: contain;
+}
+
+@media (min-width: 1024px) {
+  [data-aluno] {
+    width: var(--aluno-w-lg) !important;
+    max-height: var(--aluno-h-lg, min(76svh, 46rem)) !important;
+  }
+  [data-aluno][data-aluno-fit="height"] {
+    height: var(--aluno-h-lg) !important;
+    width: auto !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin-left: 3.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg,
+  .hero-aluno,
+  .hero-selo-cta img,
+  .hero-selo-shadow,
+    .hero-tagbtn {
+    transition-duration: 160ms !important;
+    transform: none !important;
+  }
+  .hero-bg.is-active,
+  .hero-aluno.is-active {
+    transform: none !important;
+    clip-path: none !important;
+  }
+  .hero-in,
+  .hero-mask-item,
+  .hero-swap {
+    animation: none !important;
+    opacity: 1;
+    clip-path: none;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   JORNADA — capítulo dos níveis de ensino (Ensino.tsx)
+   ============================================================ */
+.jornada-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #9b0bc5;
+  background-blend-mode: soft-light;
+  filter: saturate(0.8) contrast(1.05);
+  opacity: 0;
+  transition: opacity 320ms linear;
+  will-change: opacity;
+}
+.jornada-bg.is-active {
+  opacity: 1;
+}
+.jornada-bg--infantil {
+  background-color: #ff9700;
+  filter: saturate(1) contrast(1.02);
+}
+
+.jornada-photo {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 320ms linear;
+}
+.jornada-photo.is-active {
+  opacity: 1;
+}
+
+.jornada-swap {
+  animation: jornada-fade 380ms ease-out both;
+}
+@keyframes jornada-fade {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.jornada-tag {
+  display: block;
+  border: 0;
+  background: none;
+  padding: 0;
+  opacity: 0.55;
+  transform: scale(0.94);
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+  cursor: pointer;
+}
+.jornada-tag:hover {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+.jornada-tag.is-active {
+  opacity: 1;
+  transform: scale(1);
+}
+.jornada-tag:focus-visible {
+  outline: 3px solid #fff;
+  outline-offset: 6px;
+  border-radius: 999px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jornada-bg,
+  .jornada-photo {
+    transition-duration: 80ms !important;
+  }
+  .jornada-swap {
+    animation: none !important;
+  }
+}
+
+/* ============================================================
+   DEPOIMENTOS — slider manual (ProvaSocial)
+   ============================================================ */
+.depo-viewport {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.depo-viewport::-webkit-scrollbar {
+  display: none;
+}
+.depo-card {
+  scroll-snap-align: start;
+}
