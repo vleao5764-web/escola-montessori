@@ -181,7 +181,7 @@ export function Ensino() {
 
           <div className="relative mx-auto grid h-full max-w-[1280px] grid-cols-12 items-center gap-8 px-10">
             {/* esquerda: headline, intro e tags */}
-            <div className="col-span-4 flex h-[70vh] flex-col justify-between py-6">
+            <div className="col-span-4 flex h-[70vh] flex-col gap-12 py-6">
               <div>
                 <Intro />
               </div>
