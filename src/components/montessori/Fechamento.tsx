@@ -6,7 +6,7 @@ export function Fechamento() {
   return (
     <section
       aria-label="Matrículas 2027 abertas"
-      className="relative overflow-hidden bg-campaign-deep-purple pt-24 pb-20 md:pt-32 md:pb-28"
+      className="relative overflow-hidden bg-campaign-deep-purple pb-20 pt-10 md:pt-32 md:pb-28"
     >
       <img
         src={bgFund1.url}
@@ -19,20 +19,20 @@ export function Fechamento() {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-campaign-deep-purple"
       />
 
-      <div className="relative mx-auto max-w-6xl px-6">
+      <div className="relative mx-auto max-w-6xl px-6 text-center md:text-left">
         <div>
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 md:justify-start">
             <img src={tag2027.url} alt="2027" className="h-10 w-auto sm:h-12" />
             <img src={selo.url} alt="Matrículas Abertas" className="h-12 w-auto sm:h-16" />
           </div>
 
-          <h2 className="mt-8 max-w-4xl font-display text-[2.4rem] font-extrabold leading-[0.98] tracking-tight text-white md:text-[4.5rem]">
+          <h2 className="mx-auto mt-8 max-w-4xl font-display text-[2.4rem] font-extrabold leading-[0.98] tracking-tight text-white md:mx-0 md:text-[4.5rem]">
             A base de hoje constrói
             <br />o futuro de amanhã.
           </h2>
 
           <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)] lg:items-end">
-            <p className="max-w-2xl text-lg leading-relaxed text-white/85 md:text-xl">
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-white/85 md:mx-0 md:text-xl">
               Uma escola que respeita cada etapa do desenvolvimento, valoriza a autonomia e prepara
               alunos para compreender o mundo, fazer escolhas conscientes e contribuir com
               responsabilidade.

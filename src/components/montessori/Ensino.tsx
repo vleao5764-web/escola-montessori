@@ -14,6 +14,12 @@ import d06 from "@/assets/desenhos/Desenho_06.png.asset.json";
 import d11 from "@/assets/desenhos/Desenho_11.png.asset.json";
 import d07 from "@/assets/desenhos/Desenho_07.png.asset.json";
 import d14 from "@/assets/desenhos/Desenho_14.png.asset.json";
+import d02 from "@/assets/desenhos/Desenho_02.png.asset.json";
+import d05 from "@/assets/desenhos/Desenho_05.png.asset.json";
+import d08 from "@/assets/desenhos/Desenho_08.png.asset.json";
+import d12 from "@/assets/desenhos/Desenho_12.png.asset.json";
+import d16 from "@/assets/desenhos/Desenho_16.png.asset.json";
+import d18 from "@/assets/desenhos/Desenho_18.png.asset.json";
 
 interface Doodle {
   src: string;
@@ -33,6 +39,7 @@ interface Nivel {
   bgPos: string;
   accent: string;
   doodles: Doodle[];
+  sideDoodles: Doodle[];
 }
 
 const niveis: Nivel[] = [
@@ -55,6 +62,10 @@ const niveis: Nivel[] = [
       { src: d01.url, className: "left-3 top-3 w-14 xl:w-16" },
       { src: d04.url, className: "bottom-3 right-3 w-12 xl:w-14" },
     ],
+    sideDoodles: [
+      { src: d02.url, className: "-left-5 top-[19%] w-24 xl:w-32" },
+      { src: d05.url, className: "right-3 bottom-[12%] w-20 xl:w-28" },
+    ],
   },
   {
     id: "fund1",
@@ -72,6 +83,10 @@ const niveis: Nivel[] = [
     doodles: [
       { src: d06.url, className: "right-3 top-3 w-14 xl:w-16" },
       { src: d11.url, className: "bottom-3 left-3 w-12 xl:w-14" },
+    ],
+    sideDoodles: [
+      { src: d08.url, className: "left-2 bottom-[13%] w-24 xl:w-32" },
+      { src: d12.url, className: "-right-5 top-[18%] w-24 xl:w-32" },
     ],
   },
   {
@@ -91,12 +106,16 @@ const niveis: Nivel[] = [
       { src: d07.url, className: "left-3 top-3 w-14 xl:w-16" },
       { src: d14.url, className: "bottom-3 right-3 w-12 xl:w-14" },
     ],
+    sideDoodles: [
+      { src: d16.url, className: "-left-4 bottom-[15%] w-24 xl:w-32" },
+      { src: d18.url, className: "right-2 top-[17%] w-24 xl:w-32" },
+    ],
   },
 ];
 
-function Intro() {
-  const titleColor = "text-white";
-  const bodyColor = "text-white/90";
+function Intro({ darkText = false }: { darkText?: boolean }) {
+  const titleColor = darkText ? "text-campaign-deep-purple" : "text-white";
+  const bodyColor = darkText ? "text-campaign-deep-purple/80" : "text-white/90";
   return (
     <>
       <h2
@@ -179,15 +198,26 @@ export function Ensino() {
             />
           ))}
 
+          {nivel.sideDoodles.map((d) => (
+            <img
+              key={d.src}
+              src={d.src}
+              alt=""
+              aria-hidden="true"
+              loading="lazy"
+              className={`pointer-events-none absolute z-10 hidden opacity-45 xl:block ${d.className}`}
+            />
+          ))}
+
           <div className="relative mx-auto grid h-full max-w-[1280px] grid-cols-12 items-center gap-8 px-10">
             {/* esquerda: headline, intro e tags */}
-            <div className="col-span-4 flex h-[70vh] flex-col gap-12 py-6">
-              <div>
-                <Intro />
+            <div className="col-span-4 flex h-[70vh] translate-y-12 flex-col items-center gap-6 py-6 text-center">
+              <div className="w-full">
+                <Intro darkText={nivel.id === "infantil"} />
               </div>
 
               <div
-                className="flex flex-col items-start gap-5"
+                className="flex flex-col items-center gap-5"
                 role="tablist"
                 aria-label="Níveis de ensino"
               >
@@ -246,14 +276,14 @@ export function Ensino() {
               role="tabpanel"
               className="jornada-swap col-span-4"
             >
-              <h3 className="font-display text-[clamp(1.4rem,2vw,2.1rem)] font-extrabold leading-tight text-white">
+              <h3 className={`font-display text-[clamp(1.4rem,2vw,2.1rem)] font-extrabold leading-tight ${nivel.id === "infantil" ? "text-campaign-deep-purple" : "text-white"}`}>
                 {nivel.tagline}
               </h3>
-              <p className="mt-4 text-base leading-relaxed text-white/90">{nivel.corpo}</p>
+              <p className={`mt-4 text-base leading-relaxed ${nivel.id === "infantil" ? "text-campaign-deep-purple/80" : "text-white/90"}`}>{nivel.corpo}</p>
               {nivel.destaque ? (
                 <p
-                  className={`mt-5 rounded-2xl p-5 font-medium leading-relaxed text-white ${
-                    nivel.id === "infantil" ? "bg-[#d78300]" : "bg-campaign-deep-purple/35"
+                    className={`mt-5 rounded-2xl p-5 font-medium leading-relaxed ${
+                    nivel.id === "infantil" ? "bg-[#d78300] text-campaign-deep-purple" : "bg-campaign-deep-purple/35 text-white"
                   }`}
                   style={nivel.id === "infantil" ? undefined : { borderLeft: `4px solid ${nivel.accent}` }}
                 >
@@ -265,43 +295,33 @@ export function Ensino() {
         </div>
       </div>
 
-      {/* ---------- MOBILE / TABLET: seleção por tags ---------- */}
-      <div className="lg:hidden">
-        <div className="mx-auto max-w-2xl px-6 pb-8 pt-14">
+      {/* ---------- MOBILE: capítulos em sequência, guiados pelo scroll ---------- */}
+      <div className="md:hidden">
+        <div className="mx-auto max-w-2xl px-6 pb-7 pt-10 text-center">
           <Intro />
         </div>
 
-        <div
-          className="mx-auto flex max-w-2xl flex-wrap gap-4 px-6"
-          role="tablist"
-          aria-label="Níveis de ensino"
-        >
-          {niveis.map((n, i) => (
-            <button
-              key={n.id}
-              type="button"
-              role="tab"
-              aria-selected={i === ativoMobile}
-              onClick={() => setAtivoMobile(i)}
-              className={`jornada-tag ${i === ativoMobile ? "is-active" : ""}`}
-            >
-              <img src={n.tag} alt={n.titulo} className="h-8 w-auto" />
-            </button>
-          ))}
-        </div>
-
-        {niveis.map((n, i) =>
-          i === ativoMobile ? (
+        <div className="space-y-0">
+          {niveis.map((n) => (
             <article
               key={n.id}
-              className="relative mt-8 overflow-hidden bg-cover px-6 py-12"
+              aria-labelledby={`jornada-mobile-${n.id}`}
+              className="relative overflow-hidden bg-cover px-6 py-10"
               style={{
                 backgroundImage: `url(${n.bg})`,
                 backgroundPosition: n.bgPos,
               }}
             >
-              <div className="relative mx-auto max-w-2xl">
-                <h3 className="font-display text-2xl font-extrabold leading-tight text-white">
+              <div className="relative mx-auto max-w-2xl text-center">
+                <img
+                  src={n.tag}
+                  alt={n.titulo}
+                  className="mx-auto mb-4 h-9 w-auto"
+                />
+                <h3
+                  id={`jornada-mobile-${n.id}`}
+                  className={`font-display text-2xl font-extrabold leading-tight ${n.id === "infantil" ? "text-campaign-deep-purple" : "text-white"}`}
+                >
                   {n.tagline}
                 </h3>
 
@@ -323,11 +343,86 @@ export function Ensino() {
                   />
                 </div>
 
-                <p className="mt-6 leading-relaxed text-white/90">{n.corpo}</p>
+                <p className={`mt-6 leading-relaxed ${n.id === "infantil" ? "text-campaign-deep-purple/80" : "text-white/90"}`}>{n.corpo}</p>
                 {n.destaque ? (
                   <p
-                  className={`mt-5 rounded-2xl p-5 font-medium leading-relaxed text-white ${
-                    n.id === "infantil" ? "bg-[#d78300]" : "bg-campaign-deep-purple/35"
+                    className={`mt-5 rounded-2xl p-5 font-medium leading-relaxed ${
+                      n.id === "infantil" ? "bg-[#d78300] text-campaign-deep-purple" : "bg-campaign-deep-purple/35 text-white"
+                    }`}
+                    style={n.id === "infantil" ? undefined : { borderLeft: `4px solid ${n.accent}` }}
+                  >
+                    {n.destaque}
+                  </p>
+                ) : null}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+
+      {/* ---------- TABLET: seleção por tags ---------- */}
+      <div className="hidden md:block lg:hidden">
+        <div className="mx-auto max-w-2xl px-6 pb-5 pt-10">
+          <Intro />
+        </div>
+
+        <div
+          className="mx-auto flex max-w-2xl flex-wrap gap-2 px-6"
+          role="tablist"
+          aria-label="Níveis de ensino"
+        >
+          {niveis.map((n, i) => (
+            <button
+              key={n.id}
+              type="button"
+              role="tab"
+              aria-selected={i === ativoMobile}
+              onClick={() => setAtivoMobile(i)}
+              className={`jornada-tag ${i === ativoMobile ? "is-active" : ""}`}
+            >
+              <img src={n.tag} alt={n.titulo} className="h-8 w-auto" />
+            </button>
+          ))}
+        </div>
+
+        {niveis.map((n, i) =>
+          i === ativoMobile ? (
+            <article
+              key={n.id}
+              className="relative mt-4 overflow-hidden bg-cover px-6 py-10"
+              style={{
+                backgroundImage: `url(${n.bg})`,
+                backgroundPosition: n.bgPos,
+              }}
+            >
+              <div className="relative mx-auto max-w-2xl">
+                <h3 className={`font-display text-2xl font-extrabold leading-tight ${n.id === "infantil" ? "text-campaign-deep-purple" : "text-white"}`}>
+                  {n.tagline}
+                </h3>
+
+                <div className="relative mt-6">
+                  <img
+                    src={n.foto}
+                    alt={n.fotoAlt}
+                    loading="lazy"
+                    width={1024}
+                    height={768}
+                    className="aspect-[4/3] w-full rounded-3xl object-cover shadow-[0_24px_50px_-26px_rgba(0,0,0,0.6)]"
+                  />
+                  <img
+                    src={n.doodles[0]!.src}
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                    className="absolute right-2 -top-6 w-16 opacity-90"
+                  />
+                </div>
+
+                <p className={`mt-6 leading-relaxed ${n.id === "infantil" ? "text-campaign-deep-purple/80" : "text-white/90"}`}>{n.corpo}</p>
+                {n.destaque ? (
+                  <p
+                  className={`mt-5 rounded-2xl p-5 font-medium leading-relaxed ${
+                    n.id === "infantil" ? "bg-[#d78300] text-campaign-deep-purple" : "bg-campaign-deep-purple/35 text-white"
                   }`}
                   style={n.id === "infantil" ? undefined : { borderLeft: `4px solid ${n.accent}` }}
                   >

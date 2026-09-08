@@ -1,25 +1,29 @@
+import desenhoPassaro from "@/assets/desenhos/Desenho_04.png.asset.json";
+
 export function Historia() {
   return (
     <section
       aria-label="Nossa história"
-      className="relative overflow-hidden bg-campaign-paper py-20 md:py-28"
+      className="relative overflow-hidden bg-campaign-paper py-16 md:py-16"
     >
       <div className="mx-auto max-w-6xl px-6">
         <div className="grid overflow-hidden rounded-[28px] bg-white shadow-[0_24px_70px_-48px_rgba(42,23,130,0.55)] lg:grid-cols-[0.88fr_1.12fr]">
-          <div className="relative flex min-h-[25rem] flex-col justify-between overflow-hidden bg-campaign-deep-purple p-8 md:p-12">
-            <div
+          <div className="relative flex min-h-[20rem] flex-col justify-between overflow-hidden bg-campaign-deep-purple p-8 md:p-12 lg:min-h-[25rem]">
+            <img
+              src={desenhoPassaro.url}
+              alt=""
               aria-hidden="true"
-              className="absolute -right-20 -top-24 h-72 w-72 rounded-full border-[48px] border-white/5"
+              className="pointer-events-none absolute right-7 top-7 w-20 opacity-25 md:right-10 md:top-10 md:w-24"
             />
             <div className="relative flex h-full flex-col justify-center">
               <p className="font-display text-[clamp(3rem,8vw,5.7rem)] font-extrabold leading-[0.8] tracking-[-0.07em] text-white/85">
                 1970
               </p>
-              <span aria-hidden="true" className="my-8 h-px w-16 bg-white/35" />
-              <p className="font-display text-[clamp(6.5rem,17vw,11rem)] font-extrabold leading-[0.72] tracking-[-0.08em] text-campaign-blue">
+              <span aria-hidden="true" className="my-5 h-px w-16 bg-white/35 md:my-8" />
+              <p className="font-display text-[clamp(5.5rem,17vw,11rem)] font-extrabold leading-[0.72] tracking-[-0.08em] text-campaign-blue">
                 2027
               </p>
-              <p className="mt-7 max-w-xs font-display text-sm font-semibold uppercase tracking-[0.18em] text-white/60">
+              <p className="mt-5 max-w-xs font-display text-sm font-semibold uppercase tracking-[0.18em] text-white/60 md:mt-7">
                 Escola Montessori · Brasília
               </p>
             </div>

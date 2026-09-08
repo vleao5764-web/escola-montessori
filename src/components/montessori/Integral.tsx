@@ -1,13 +1,12 @@
 import desenhoChef from "@/assets/desenhos/Desenho_02.png.asset.json";
 import desenhoPulso from "@/assets/desenhos/Desenho_10.png.asset.json";
 import fotoRotina from "@/assets/dia-a-dia-08.png";
-import fotoAprender from "@/assets/galeria-5.jpg";
 
 export function Integral() {
   return (
     <section
       aria-label="Montessori Integral e aulas especializadas"
-      className="bg-amarelo py-20 md:py-28"
+      className="bg-amarelo pb-16 pt-6 md:pb-16 md:pt-16"
     >
       <div className="mx-auto max-w-[1280px] px-6">
         <header className="grid gap-6 lg:grid-cols-12 lg:items-end">
@@ -34,7 +33,7 @@ export function Integral() {
             <div className="absolute inset-0 bg-gradient-to-t from-campaign-deep-purple/90 via-campaign-deep-purple/15 to-transparent" />
             <div className="absolute inset-x-0 bottom-0 p-7 md:p-9">
               <span className="font-display text-[0.65rem] font-extrabold uppercase tracking-[0.24em] text-campaign-orange">Um dia completo</span>
-              <h3 className="mt-3 max-w-md font-display text-3xl font-extrabold leading-tight text-white md:text-4xl">Experiências que ampliam o aprender.</h3>
+              <h3 className="mt-3 max-w-md font-display text-[1.7rem] font-extrabold leading-tight text-white sm:text-3xl md:text-4xl">Experiências que ampliam o aprender.</h3>
             </div>
           </article>
 
@@ -56,7 +55,6 @@ export function Integral() {
           </article>
 
           <article className="relative min-h-56 overflow-hidden rounded-[28px] bg-[#d37e26] p-7 lg:col-span-7">
-            <img src={fotoAprender} alt="Educadora acompanhando uma atividade escolar" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-35 mix-blend-multiply" />
             <img src={desenhoChef.url} alt="" aria-hidden="true" loading="lazy" className="pointer-events-none absolute bottom-5 right-6 w-16 opacity-45" />
             <div className="relative max-w-xl">
               <span className="font-display text-[0.65rem] font-extrabold uppercase tracking-[0.24em] text-white/85">Mão na massa</span>

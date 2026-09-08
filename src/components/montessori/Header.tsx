@@ -161,8 +161,8 @@ function CTA({
       href="#agende"
       onClick={onClick}
       className={[
-        "group relative inline-flex items-center justify-center rounded-[14px] bg-campaign-orange font-display font-extrabold uppercase tracking-[0.01em] text-campaign-deep-purple",
-        "transition-[filter,padding] duration-300 ease-out hover:brightness-95",
+        "group relative inline-flex items-center justify-center rounded-[14px] bg-campaign-orange font-display font-extrabold uppercase tracking-[0.01em] text-campaign-deep-purple shadow-[0_5px_0_0_var(--campaign-burnt-orange)]",
+        "transition-[transform,box-shadow] duration-200 ease-out hover:translate-y-0.5 hover:shadow-[0_2px_0_0_var(--campaign-burnt-orange)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-campaign-deep-purple motion-reduce:transition-none",
         block
           ? "w-full px-6 py-4 text-base"

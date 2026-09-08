@@ -5,7 +5,7 @@ export function VideoSection() {
   return (
     <section
       aria-labelledby="video-titulo"
-      className="relative overflow-hidden bg-magenta-camp py-16 text-white sm:py-24"
+      className="relative overflow-hidden bg-magenta-camp py-10 text-white sm:py-24"
     >
       <img
         src={bgFund1.url}

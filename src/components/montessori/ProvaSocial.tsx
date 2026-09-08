@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Depoimento {
@@ -59,18 +59,14 @@ const depoimentos: Depoimento[] = [
   },
 ];
 
-const num = (i: number) => String(i + 1).padStart(2, "0");
-const pontosNavegacao = [0, 1, 2];
-
-function Card({ d, i }: { d: Depoimento; i: number }) {
+function Card({ d }: { d: Depoimento }) {
   return (
     <article
       data-depo-card
-      className={`depo-card flex min-h-[22rem] w-[85vw] shrink-0 flex-col justify-between rounded-[24px] p-8 sm:w-[22rem] lg:w-[24rem] ${d.fundo} ${d.texto}`}
+      className={`depo-card flex min-h-[22rem] w-[78vw] shrink-0 flex-col justify-between rounded-[24px] p-8 sm:w-[22rem] lg:w-[24rem] ${d.fundo} ${d.texto}`}
     >
       <div>
-        <div className="flex items-baseline gap-3">
-          <span className="font-display text-3xl font-extrabold leading-none">{num(i)}</span>
+        <div>
           <p className="font-display text-xs font-bold uppercase tracking-[0.18em]">
             {d.necessidade}
           </p>
@@ -87,34 +83,95 @@ function Card({ d, i }: { d: Depoimento; i: number }) {
 
 export function ProvaSocial() {
   const viewportRef = useRef<HTMLDivElement | null>(null);
-  const [indice, setIndice] = useState(0);
+  const [indiceAtivo, setIndiceAtivo] = useState(0);
+  const cardsEmLoop = [...depoimentos, ...depoimentos, ...depoimentos];
 
-  const irPara = useCallback((i: number) => {
-    const vp = viewportRef.current;
-    if (!vp) return;
-    const alvo = Math.min(Math.max(i, 0), depoimentos.length - 1);
-    const card = vp.querySelectorAll<HTMLElement>("[data-depo-card]")[alvo];
-    if (!card) return;
-    vp.scrollTo({ left: card.offsetLeft - vp.offsetLeft, behavior: "smooth" });
-    setIndice(alvo);
-  }, []);
-
-  const sincronizarComScroll = useCallback(() => {
-    const vp = viewportRef.current;
-    if (!vp) return;
-    const cards = Array.from(vp.querySelectorAll<HTMLElement>("[data-depo-card]"));
-    if (!cards.length) return;
-
-    const indiceMaisProximo = cards.reduce((melhor, card, i) => {
+  const indiceMaisProximo = useCallback((vp: HTMLDivElement, cards: HTMLElement[]) =>
+    cards.reduce((melhor, card, i) => {
       const distanciaAtual = Math.abs(card.offsetLeft - vp.offsetLeft - vp.scrollLeft);
       const distanciaMelhor = Math.abs(cards[melhor]!.offsetLeft - vp.offsetLeft - vp.scrollLeft);
       return distanciaAtual < distanciaMelhor ? i : melhor;
-    }, 0);
-    setIndice((atual) => (atual === indiceMaisProximo ? atual : indiceMaisProximo));
+    }, 0), []);
+
+  const mover = useCallback((direcao: 1 | -1) => {
+    const vp = viewportRef.current;
+    if (!vp) return;
+
+    const cards = Array.from(vp.querySelectorAll<HTMLElement>("[data-depo-card]"));
+    if (!cards.length) return;
+
+    const tamanhoDoCiclo = depoimentos.length;
+    let atual = indiceMaisProximo(vp, cards);
+    let alvo = atual + direcao;
+    const limiteDireito = vp.scrollWidth - vp.clientWidth;
+    const distanciaDoCiclo = cards[tamanhoDoCiclo]!.offsetLeft - cards[0]!.offsetLeft;
+    const margemDeVisibilidade = Math.min(56, vp.clientWidth * 0.12);
+    const posicaoDoCartao = (card: HTMLElement) =>
+      card.offsetLeft - vp.offsetLeft - margemDeVisibilidade;
+    let reposicionado = false;
+
+    // Quando o próximo cartão ultrapassaria a área rolável, reposiciona no mesmo cartão
+    // da cópia anterior. Como o conteúdo é idêntico, o usuário vê só o movimento contínuo.
+    if (direcao === 1 && (alvo >= cards.length || posicaoDoCartao(cards[alvo]!) > limiteDireito)) {
+      vp.scrollTo({ left: Math.max(0, vp.scrollLeft - distanciaDoCiclo) });
+      atual -= tamanhoDoCiclo;
+      alvo = atual + 1;
+      reposicionado = true;
+    }
+    if (direcao === -1 && (alvo < 0 || posicaoDoCartao(cards[alvo]!) < 0)) {
+      vp.scrollTo({ left: Math.min(limiteDireito, vp.scrollLeft + distanciaDoCiclo) });
+      atual += tamanhoDoCiclo;
+      alvo = atual - 1;
+      reposicionado = true;
+    }
+
+    const proximoCartao = cards[alvo];
+    if (proximoCartao) {
+      const irPara = () => vp.scrollTo({
+        left: posicaoDoCartao(proximoCartao),
+        behavior: "smooth",
+      });
+      if (reposicionado) {
+        requestAnimationFrame(irPara);
+      } else {
+        irPara();
+      }
+    }
+  }, [indiceMaisProximo]);
+
+  useEffect(() => {
+    const vp = viewportRef.current;
+    if (!vp) return;
+    const primeiroCartaoDoMeio = vp.querySelectorAll<HTMLElement>("[data-depo-card]")[depoimentos.length];
+    if (primeiroCartaoDoMeio) {
+      const margemDeVisibilidade = Math.min(56, vp.clientWidth * 0.12);
+      vp.scrollTo({ left: primeiroCartaoDoMeio.offsetLeft - vp.offsetLeft - margemDeVisibilidade });
+    }
   }, []);
 
+  useEffect(() => {
+    const vp = viewportRef.current;
+    if (!vp) return;
+    let quadro: number | null = null;
+    const atualizarIndicador = () => {
+      quadro = null;
+      const cards = Array.from(vp.querySelectorAll<HTMLElement>("[data-depo-card]"));
+      if (!cards.length) return;
+      setIndiceAtivo(indiceMaisProximo(vp, cards) % depoimentos.length);
+    };
+    const aoRolar = () => {
+      if (quadro === null) quadro = requestAnimationFrame(atualizarIndicador);
+    };
+    atualizarIndicador();
+    vp.addEventListener("scroll", aoRolar, { passive: true });
+    return () => {
+      vp.removeEventListener("scroll", aoRolar);
+      if (quadro !== null) cancelAnimationFrame(quadro);
+    };
+  }, [indiceMaisProximo]);
+
   return (
-    <section aria-label="Depoimentos de famílias" className="bg-campaign-mist py-20 md:py-28">
+    <section aria-label="Depoimentos de famílias" className="bg-campaign-mist pb-10 pt-16 md:pb-12 md:pt-16">
       <div className="mx-auto max-w-[1280px] px-6">
         <div className="grid gap-8 md:grid-cols-12">
           <div className="md:col-span-7">
@@ -133,9 +190,9 @@ export function ProvaSocial() {
           </p>
         </div>
 
-        <div ref={viewportRef} onScroll={sincronizarComScroll} className="depo-viewport mt-12 pb-2">
-          {depoimentos.map((d, i) => (
-            <Card key={d.necessidade} d={d} i={i} />
+        <div ref={viewportRef} className="depo-viewport mt-12 pb-2 pr-[10vw] md:pr-0">
+          {cardsEmLoop.map((d, i) => (
+            <Card key={`${d.necessidade}-${i}`} d={d} />
           ))}
         </div>
 
@@ -143,7 +200,7 @@ export function ProvaSocial() {
           <button
             type="button"
             aria-label="Depoimento anterior"
-            onClick={() => irPara(indice - 1)}
+            onClick={() => mover(-1)}
             className="flex h-11 w-11 items-center justify-center rounded-full bg-campaign-deep-purple text-white transition hover:bg-campaign-purple focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-campaign-deep-purple"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -151,24 +208,17 @@ export function ProvaSocial() {
           <button
             type="button"
             aria-label="Próximo depoimento"
-            onClick={() => irPara(indice + 1)}
+            onClick={() => mover(1)}
             className="flex h-11 w-11 items-center justify-center rounded-full bg-campaign-deep-purple text-white transition hover:bg-campaign-purple focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-campaign-deep-purple"
           >
             <ChevronRight className="h-5 w-5" />
           </button>
-          <div className="ml-2 flex gap-2">
-            {pontosNavegacao.map((alvo, i) => (
-              <button
-                key={alvo}
-                type="button"
-                aria-label={`Ir para o depoimento ${num(alvo)}`}
-                aria-current={i === Math.min(2, indice)}
-                onClick={() => irPara(alvo)}
-                className={`h-2.5 w-2.5 rounded-full transition-colors ${
-                  i === Math.min(2, indice)
-                    ? "bg-campaign-deep-purple"
-                    : "bg-campaign-deep-purple/30"
-                }`}
+          <div className="flex items-center gap-2 md:hidden" aria-label={`Depoimento ${indiceAtivo + 1} de ${depoimentos.length}`}>
+            {depoimentos.map((d, i) => (
+              <span
+                key={d.necessidade}
+                aria-hidden="true"
+                className={`h-2 rounded-full transition-all ${i === indiceAtivo ? "w-5 bg-campaign-deep-purple" : "w-2 bg-campaign-deep-purple/25"}`}
               />
             ))}
           </div>

@@ -42,43 +42,47 @@ export function Estrutura() {
     <section
       id="estrutura"
       aria-label="Estrutura da escola"
-      className="scroll-mt-24 bg-[#2a1782] py-20 md:py-28"
+      className="scroll-mt-24 bg-[#2a1782]"
     >
-      <div className="mx-auto max-w-[1280px] px-6">
-        {/* abertura */}
-        <header className="grid gap-8 lg:grid-cols-12 lg:items-end">
-          <div className="lg:col-span-7">
-            <span className="inline-block rounded-full bg-campaign-orange px-4 py-1.5 font-display text-[0.68rem] font-extrabold uppercase tracking-[0.24em] text-campaign-deep-purple">
-              Ambiente preparado
-            </span>
-            <h2 className="mt-6 font-display text-[clamp(1.7rem,7.8vw,2.25rem)] font-extrabold leading-[0.95] tracking-tight text-white sm:text-6xl">
-              Um ambiente
-              <br />
-              <span className="whitespace-nowrap">
-                que também <span className="text-campaign-orange">educa.</span>
-              </span>
-            </h2>
-          </div>
-          <p className="max-w-md text-base leading-relaxed text-white/80 lg:col-span-5 lg:pb-3">
-            Cada espaço é preparado para favorecer autonomia, concentração, movimento, convivência e
-            construção ativa do conhecimento.
-          </p>
-        </header>
-
-        <figure className="relative mt-12 overflow-hidden rounded-[28px] shadow-[0_24px_60px_-30px_rgba(0,0,0,0.45)]">
+      <figure className="relative mx-4 mt-4 min-h-[34rem] overflow-hidden rounded-[24px] bg-campaign-blue md:mx-0 md:mt-0 md:min-h-[46rem] md:rounded-none">
           <img
             src={fachadaMontessori}
             alt="Vista aérea da fachada da Escola Montessori em Brasília"
             loading="lazy"
-            className="aspect-[2/1] w-full object-cover object-center"
+            className="absolute inset-0 h-full w-full object-cover object-center"
           />
-          <figcaption className="absolute bottom-5 left-5 rounded-[14px] bg-campaign-deep-purple/90 px-5 py-3 font-display text-sm font-bold text-white backdrop-blur-sm md:bottom-7 md:left-7">
-            Escola Montessori · Brasília
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#120b42]/95 via-[#120b42]/60 to-[#120b42]/10"
+          />
+          <figcaption className="absolute inset-x-0 bottom-0 mx-auto max-w-[1280px] px-6 pb-12 pt-32 text-white md:pb-20">
+            <span className="inline-block rounded-full bg-campaign-orange px-4 py-1.5 font-display text-[0.68rem] font-extrabold uppercase tracking-[0.24em] text-campaign-deep-purple">
+              Ambiente preparado
+            </span>
+            <div className="mt-6 grid gap-8 xl:grid-cols-12 xl:items-end">
+              <div className="xl:col-span-7">
+                <p className="mb-3 font-display text-sm font-bold uppercase tracking-[0.18em] text-white/75">
+                  Escola Montessori · Brasília
+                </p>
+                <h2 className="font-display text-[clamp(2rem,9vw,2.5rem)] font-extrabold leading-[0.95] tracking-tight md:text-[clamp(2.5rem,6vw,5rem)]">
+                  Um ambiente
+                  <br />
+                  <span className="md:whitespace-nowrap">
+                    que também <span className="text-campaign-orange">educa.</span>
+                  </span>
+                </h2>
+              </div>
+              <p className="max-w-sm text-base leading-relaxed text-white/90 xl:col-start-9 xl:col-span-4 xl:justify-self-end xl:pb-2">
+                Cada espaço é preparado para favorecer autonomia, concentração, movimento, convivência
+                e construção ativa do conhecimento.
+              </p>
+            </div>
           </figcaption>
         </figure>
 
+      <div className="mx-auto max-w-[1280px] px-6 pb-12 pt-5 md:pb-16 md:pt-8">
         {/* grid 3×2 de cards */}
-        <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {itens.map((item, i) => (
             <li key={item.nome} className="rounded-[20px] border border-white/15 bg-[#3a2599] p-6">
               <span
@@ -96,7 +100,7 @@ export function Estrutura() {
         </ol>
 
         {/* CTA em painel horizontal */}
-        <div className="relative mt-12 flex flex-col items-start gap-6 overflow-hidden rounded-[24px] bg-[#684690] p-8 md:flex-row md:items-center md:justify-between md:p-10">
+        <div className="relative mt-12 flex flex-col items-center gap-6 overflow-hidden rounded-[24px] bg-[#684690] p-8 text-center md:flex-row md:items-center md:justify-between md:p-10 md:text-left">
           <p className="relative font-display text-2xl font-extrabold leading-tight text-white md:text-4xl">
             Faça um tour pela escola.
           </p>
@@ -109,7 +113,7 @@ export function Estrutura() {
           />
           <a
             href="#agende"
-            className="relative inline-flex items-center justify-center rounded-[14px] bg-amarelo px-8 py-4 font-display text-base font-extrabold uppercase tracking-wide text-footer transition hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            className="relative inline-flex items-center justify-center rounded-[14px] bg-amarelo px-8 py-4 font-display text-base font-extrabold uppercase tracking-wide text-footer shadow-[0_6px_0_0_var(--campaign-burnt-orange)] transition-[transform,box-shadow] hover:translate-y-0.5 hover:shadow-[0_3px_0_0_var(--campaign-burnt-orange)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
           >
             Agende sua visita
           </a>

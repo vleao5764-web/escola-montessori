@@ -42,7 +42,7 @@ export function Galeria() {
   return (
     <section
       aria-label="Galeria — um pouco do nosso dia a dia"
-      className="relative overflow-hidden bg-campaign-blue py-20 md:py-28"
+      className="relative overflow-hidden bg-campaign-blue py-16 md:pb-14 md:pt-24"
     >
       <div className="relative mx-auto max-w-[1280px] px-6">
         {/* Abertura editorial */}

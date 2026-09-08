@@ -37,21 +37,21 @@ const PILARES: Pilar[] = [
 const AREAS = [
   {
     nome: "Vida Prática",
-    desc: "Autonomia, organização e coordenação",
+    desc: "Autonomia, organização e coordenação.",
     bg: "bg-campaign-blue",
     fg: "text-white",
     sub: "text-white/85",
   },
   {
     nome: "Sensorial",
-    desc: "Percepção, comparação e pensamento",
+    desc: "Percepção, comparação e pensamento.",
     bg: "bg-campaign-purple",
     fg: "text-white",
     sub: "text-white/85",
   },
   {
     nome: "Linguagem",
-    desc: "Comunicação, leitura e escrita",
+    desc: "Comunicação, leitura e escrita.",
     bg: "bg-campaign-orange",
     fg: "text-campaign-deep-purple",
     sub: "text-campaign-deep-purple/80",
@@ -65,7 +65,7 @@ const AREAS = [
   },
   {
     nome: "Educação Cósmica",
-    desc: "Relações entre universo, vida, humanidade e responsabilidade com o mundo",
+    desc: "Relações entre universo, vida, humanidade e responsabilidade com o mundo.",
     bg: "bg-campaign-deep-purple",
     fg: "text-white",
     sub: "text-white/85",
@@ -77,11 +77,11 @@ export function Metodologia() {
     <section
       id="metodologia"
       aria-labelledby="metodologia-titulo"
-      className="scroll-mt-24 bg-campaign-paper py-20 lg:py-28"
+      className="scroll-mt-24 bg-campaign-paper py-14 lg:py-28"
     >
       <div className="mx-auto max-w-[1280px] px-6">
         {/* ── ABERTURA ── */}
-        <div className="grid gap-10 lg:grid-cols-[65fr_35fr] lg:items-stretch">
+        <div className="grid gap-7 lg:grid-cols-[65fr_35fr] lg:gap-10 lg:items-stretch">
           <div>
             <span className="inline-block rounded-full bg-campaign-orange px-4 py-1.5 font-display text-[0.68rem] font-extrabold uppercase tracking-[0.28em] text-campaign-deep-purple">
               Metodologia
@@ -169,7 +169,7 @@ export function Metodologia() {
           </p>
           <a
             href="#agende"
-            className="inline-block rounded-[14px] bg-campaign-orange px-9 py-4 font-display text-lg font-extrabold uppercase tracking-wide text-campaign-deep-purple transition hover:-translate-y-0.5 hover:scale-[1.02] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-campaign-orange"
+            className="inline-block rounded-[14px] bg-campaign-orange px-9 py-4 font-display text-lg font-extrabold uppercase tracking-wide text-campaign-deep-purple shadow-[0_6px_0_0_var(--campaign-burnt-orange)] transition-[transform,box-shadow] hover:translate-y-0.5 hover:shadow-[0_3px_0_0_var(--campaign-burnt-orange)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-campaign-orange"
           >
             Agende sua visita
           </a>

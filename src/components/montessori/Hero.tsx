@@ -252,7 +252,7 @@ export function Hero() {
           role="tablist"
           aria-label="Escolha o nível de ensino"
           onKeyDown={onKeyNav}
-          className="hero-tagsel hero-in hero-in-1 relative z-20 flex flex-wrap items-center justify-center gap-2 sm:gap-3 lg:justify-start"
+          className="hero-tagsel hero-in hero-in-1 relative z-20 flex flex-nowrap items-center justify-center gap-1.5 sm:gap-3 lg:justify-start"
         >
           {LEVELS.map((l) => {
             const isActive = l.id === active;
@@ -271,8 +271,8 @@ export function Hero() {
                 <img
                   src={l.tag}
                   alt=""
-                  className="block w-auto"
-                  style={{ height: l.tagHeight, objectFit: "contain" }}
+                  className="block h-[var(--tag-h)] w-auto max-sm:h-[clamp(1.2rem,3.1vh,1.45rem)]"
+                  style={{ ["--tag-h" as string]: l.tagHeight, objectFit: "contain" }}
                 />
               </button>
             );
@@ -306,12 +306,26 @@ export function Hero() {
               />
             </div>
 
-            <p className="hero-in hero-in-3 mx-auto mt-5 max-w-md text-[clamp(0.95rem,1.15vw,1.1rem)] font-medium leading-snug text-white/90 lg:mx-0">
+            <p className="hero-in hero-in-3 mx-auto mt-5 hidden max-w-md text-[clamp(0.95rem,1.15vw,1.1rem)] font-medium leading-snug text-white/90 lg:mx-0 lg:block">
               Uma educação que respeita o potencial de cada aluno, desenvolve autonomia e prepara
               para os desafios de toda uma jornada.
             </p>
 
-            <p className="hero-in hero-in-3 mx-auto mt-4 max-w-md text-[clamp(0.9rem,1.05vw,1rem)] font-semibold leading-snug text-white/85 lg:mx-0">
+            <p className="hero-in hero-in-3 mx-auto mt-4 hidden max-w-md text-[clamp(0.9rem,1.05vw,1rem)] font-semibold leading-snug text-white/85 lg:relative lg:z-30 lg:mx-0 lg:block lg:w-[24rem] lg:max-w-none">
+              <span className="highlighter-roxo">
+                Na Escola Montessori, cada aluno encontra um ambiente preparado para aprender,
+                descobrir e construir <span className="whitespace-nowrap">seu próprio caminho.</span>
+              </span>
+            </p>
+          </div>
+
+          {/* No celular, o texto vem antes do aluno para não competir visualmente com os cubos. */}
+          <div className="order-2 mx-auto max-w-[21rem] text-center lg:hidden">
+            <p className="text-balance text-[0.95rem] font-medium leading-[1.4] text-white/90">
+              Uma educação que respeita o potencial de cada aluno, desenvolve autonomia e prepara
+              para os desafios de toda uma jornada.
+            </p>
+            <p className="mt-4 text-balance text-[0.9rem] font-semibold leading-[1.4] text-white/85">
               <span className="highlighter-roxo">
                 Na Escola Montessori, cada aluno encontra um ambiente preparado para aprender,
                 descobrir e construir seu próprio caminho.
@@ -320,7 +334,7 @@ export function Hero() {
           </div>
 
           {/* ZONA 2 — aluno e seus objetos */}
-          <div className="relative order-2 flex items-end justify-center self-end px-6 sm:px-7 lg:order-2 lg:h-full">
+          <div className="relative order-3 flex items-end justify-center self-end px-6 sm:px-7 lg:order-2 lg:h-full">
             {LEVELS.map((l) => (
               <img
                 key={l.id}
@@ -344,11 +358,11 @@ export function Hero() {
           </div>
 
           {/* ZONA 3 — informações e CTA */}
-          <div className="relative z-20 order-3 flex flex-col items-center gap-5 lg:items-start">
+          <div className="relative z-20 order-4 flex flex-col items-center gap-5 lg:order-3 lg:items-start">
             <img
               src={ensinosTurnos.url}
               alt="Do Maternal ao 9º ano · Turnos matutino, vespertino e integral"
-              className="hero-in hero-in-4 order-2 h-auto w-full max-w-[min(16rem,62vw)] lg:order-1 lg:max-w-[280px]"
+              className="hero-in hero-in-4 order-1 h-auto w-full max-w-[min(12rem,50vw)] lg:max-w-[280px]"
               style={{ objectFit: "contain" }}
             />
 
@@ -362,7 +376,7 @@ export function Hero() {
                   el.scrollIntoView({ behavior: "smooth", block: "start" });
                 }
               }}
-              className="hero-selo-cta order-1 lg:order-2"
+              className="hero-selo-cta order-2"
             >
               <span className="hero-selo-shadow" aria-hidden="true" />
               <img

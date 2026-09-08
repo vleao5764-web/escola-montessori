@@ -44,12 +44,8 @@ export function Agende() {
     <section
       id="agende"
       aria-label="Agende sua visita"
-      className="relative overflow-hidden bg-campaign-blue py-20 md:py-28"
+      className="relative overflow-hidden bg-gradient-to-r from-campaign-blue via-[#1478bb] to-campaign-deep-purple py-16 md:pb-20 md:pt-16"
     >
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[38%] bg-campaign-deep-purple lg:block"
-      />
       <img
         src={desenho.url}
         alt=""
