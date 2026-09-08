@@ -84,4 +84,15 @@ for (const file of files) {
   await writeFile(join(destinationDir, targetPath), content);
 }
 
+// As páginas legais precisam continuar em seus próprios endereços no servidor.
+// A cópia adicional mantém a publicação plana do restante do site e atualiza
+// /politica-de-privacidade e /termos-de-uso no mesmo envio.
+for (const legalPath of ["politica-de-privacidade/index.html", "termos-de-uso/index.html"]) {
+  const flattened = fileMap.get(legalPath);
+  if (!flattened) continue;
+  const nestedPath = join(destinationDir, legalPath);
+  await mkdir(dirname(nestedPath), { recursive: true });
+  await cp(join(destinationDir, flattened), nestedPath);
+}
+
 console.log(`Pacote sem pastas preparado com ${files.length} arquivos.`);

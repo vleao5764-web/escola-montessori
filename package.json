@@ -7,6 +7,7 @@
     "dev": "vite dev",
     "build": "vite build",
     "package:hostinger": "pnpm run build && node scripts/package-hostinger.mjs",
+    "sync:github": "node scripts/watch-github-publish.mjs",
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "lint": "eslint .",
