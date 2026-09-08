@@ -28,7 +28,7 @@ export function Footer() {
             <span className="inline-flex rounded-full bg-campaign-orange px-3 py-1 font-display text-[0.62rem] font-extrabold uppercase tracking-[0.2em] text-campaign-deep-purple">
               Matrículas 2027
             </span>
-            <a href="#topo" aria-label="Escola Montessori — início">
+            <a href="#topo" aria-label="Escola Montessori: início">
               <img src={logoHorizontal.url} alt="Escola Montessori" className="mt-5 h-14 w-auto" />
             </a>
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-white/70">
@@ -124,7 +124,7 @@ export function Footer() {
           </div>
         </div>
         <div className="mt-14 flex flex-col gap-4 border-t border-white/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-white/50">© 2027 Escola Montessori — Todos os direitos reservados</p>
+          <p className="text-xs text-white/50">© 2027 Escola Montessori. Todos os direitos reservados</p>
           <p className="font-display text-xs font-bold uppercase tracking-[0.18em] text-white/50">Brasília · DF</p>
         </div>
       </div>

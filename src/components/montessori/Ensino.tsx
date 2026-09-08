@@ -183,7 +183,7 @@ export function Ensino() {
   return (
     <section
       id="ensino"
-      aria-label="Ensino — nossas séries"
+      aria-label="Ensino: nossas séries"
       className="relative scroll-mt-24 bg-[#9b0bc5]"
     >
       {/* ---------- DESKTOP: jornada sticky ---------- */}

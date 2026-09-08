@@ -40,7 +40,7 @@ export function Historia() {
               Em julho de 1970 nasceu a Escola Montessori, a partir da convicção de que cada aluno
               tem um potencial único a ser reconhecido, respeitado e desenvolvido. Mantida pela
               Província Carmelitana Fluminense, une tradição, fé, formação humana e os princípios da
-              metodologia Montessori — contemplando as dimensões cognitiva, emocional, social e
+              metodologia Montessori, contemplando as dimensões cognitiva, emocional, social e
               física.
             </p>
             <p className="mt-8 font-display text-3xl font-extrabold text-campaign-blue md:text-4xl">

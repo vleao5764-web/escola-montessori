@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface Depoimento {
   necessidade: string;
+  nome: string;
   dor: string;
   destaque: string;
   fundo: string;
@@ -14,6 +15,7 @@ interface Depoimento {
 const depoimentos: Depoimento[] = [
   {
     necessidade: "Autonomia",
+    nome: "Mariana Souza",
     dor: "Eu queria que meu filho aprendesse a caminhar com mais autonomia.",
     destaque: "Ele começou a perceber que era capaz de fazer sozinho.",
     fundo: "bg-[#0093cd]",
@@ -23,6 +25,7 @@ const depoimentos: Depoimento[] = [
   },
   {
     necessidade: "Acompanhamento individual",
+    nome: "Ricardo Almeida",
     dor: "Eu procurava uma escola onde meu filho fosse realmente conhecido.",
     destaque: "Aqui ele não é apenas mais um aluno.",
     fundo: "bg-[#f6a807]",
@@ -32,6 +35,7 @@ const depoimentos: Depoimento[] = [
   },
   {
     necessidade: "Adaptação e acolhimento",
+    nome: "Camila Ferreira",
     dor: "A maior preocupação era saber se ele iria se adaptar.",
     destaque: "Ele encontrou um lugar onde se sentiu pertencente.",
     fundo: "bg-[#2a1782]",
@@ -41,6 +45,7 @@ const depoimentos: Depoimento[] = [
   },
   {
     necessidade: "Ritmo de aprendizagem",
+    nome: "Fernanda Costa",
     dor: "Cada criança tem seu próprio jeito de aprender.",
     destaque: "Ele passou a aprender com mais confiança.",
     fundo: "bg-[#64a33d]",
@@ -50,6 +55,7 @@ const depoimentos: Depoimento[] = [
   },
   {
     necessidade: "Formação humana e valores",
+    nome: "João Martins",
     dor: "Queríamos uma escola que formasse além dos conteúdos.",
     destaque: "Uma formação que une conhecimento, valores cristãos e desenvolvimento humano.",
     fundo: "bg-[#684690]",
@@ -73,10 +79,10 @@ function Card({ d }: { d: Depoimento }) {
         </div>
         <span aria-hidden="true" className={`mt-4 block h-1 w-12 rounded-full ${d.filete}`} />
         <p className="mt-6 font-display text-xl font-bold leading-snug md:text-2xl">
-          &ldquo;{d.dor}&rdquo;
+          &ldquo;{d.dor} {d.destaque}&rdquo;
         </p>
       </div>
-      <p className="mt-8 text-base font-medium leading-relaxed">{d.destaque}</p>
+      <p className={`mt-8 font-display text-sm font-bold ${d.secundario}`}>{d.nome}</p>
     </article>
   );
 }
@@ -86,63 +92,74 @@ export function ProvaSocial() {
   const [indiceAtivo, setIndiceAtivo] = useState(0);
   const cardsEmLoop = [...depoimentos, ...depoimentos, ...depoimentos];
 
-  const indiceMaisProximo = useCallback((vp: HTMLDivElement, cards: HTMLElement[]) =>
-    cards.reduce((melhor, card, i) => {
-      const distanciaAtual = Math.abs(card.offsetLeft - vp.offsetLeft - vp.scrollLeft);
-      const distanciaMelhor = Math.abs(cards[melhor]!.offsetLeft - vp.offsetLeft - vp.scrollLeft);
-      return distanciaAtual < distanciaMelhor ? i : melhor;
-    }, 0), []);
+  const indiceMaisProximo = useCallback(
+    (vp: HTMLDivElement, cards: HTMLElement[]) =>
+      cards.reduce((melhor, card, i) => {
+        const distanciaAtual = Math.abs(card.offsetLeft - vp.offsetLeft - vp.scrollLeft);
+        const distanciaMelhor = Math.abs(cards[melhor]!.offsetLeft - vp.offsetLeft - vp.scrollLeft);
+        return distanciaAtual < distanciaMelhor ? i : melhor;
+      }, 0),
+    [],
+  );
 
-  const mover = useCallback((direcao: 1 | -1) => {
-    const vp = viewportRef.current;
-    if (!vp) return;
+  const mover = useCallback(
+    (direcao: 1 | -1) => {
+      const vp = viewportRef.current;
+      if (!vp) return;
 
-    const cards = Array.from(vp.querySelectorAll<HTMLElement>("[data-depo-card]"));
-    if (!cards.length) return;
+      const cards = Array.from(vp.querySelectorAll<HTMLElement>("[data-depo-card]"));
+      if (!cards.length) return;
 
-    const tamanhoDoCiclo = depoimentos.length;
-    let atual = indiceMaisProximo(vp, cards);
-    let alvo = atual + direcao;
-    const limiteDireito = vp.scrollWidth - vp.clientWidth;
-    const distanciaDoCiclo = cards[tamanhoDoCiclo]!.offsetLeft - cards[0]!.offsetLeft;
-    const margemDeVisibilidade = Math.min(56, vp.clientWidth * 0.12);
-    const posicaoDoCartao = (card: HTMLElement) =>
-      card.offsetLeft - vp.offsetLeft - margemDeVisibilidade;
-    let reposicionado = false;
+      const tamanhoDoCiclo = depoimentos.length;
+      let atual = indiceMaisProximo(vp, cards);
+      let alvo = atual + direcao;
+      const limiteDireito = vp.scrollWidth - vp.clientWidth;
+      const distanciaDoCiclo = cards[tamanhoDoCiclo]!.offsetLeft - cards[0]!.offsetLeft;
+      const margemDeVisibilidade = Math.min(56, vp.clientWidth * 0.12);
+      const posicaoDoCartao = (card: HTMLElement) =>
+        card.offsetLeft - vp.offsetLeft - margemDeVisibilidade;
+      let reposicionado = false;
 
-    // Quando o próximo cartão ultrapassaria a área rolável, reposiciona no mesmo cartão
-    // da cópia anterior. Como o conteúdo é idêntico, o usuário vê só o movimento contínuo.
-    if (direcao === 1 && (alvo >= cards.length || posicaoDoCartao(cards[alvo]!) > limiteDireito)) {
-      vp.scrollTo({ left: Math.max(0, vp.scrollLeft - distanciaDoCiclo) });
-      atual -= tamanhoDoCiclo;
-      alvo = atual + 1;
-      reposicionado = true;
-    }
-    if (direcao === -1 && (alvo < 0 || posicaoDoCartao(cards[alvo]!) < 0)) {
-      vp.scrollTo({ left: Math.min(limiteDireito, vp.scrollLeft + distanciaDoCiclo) });
-      atual += tamanhoDoCiclo;
-      alvo = atual - 1;
-      reposicionado = true;
-    }
-
-    const proximoCartao = cards[alvo];
-    if (proximoCartao) {
-      const irPara = () => vp.scrollTo({
-        left: posicaoDoCartao(proximoCartao),
-        behavior: "smooth",
-      });
-      if (reposicionado) {
-        requestAnimationFrame(irPara);
-      } else {
-        irPara();
+      // Quando o próximo cartão ultrapassaria a área rolável, reposiciona no mesmo cartão
+      // da cópia anterior. Como o conteúdo é idêntico, o usuário vê só o movimento contínuo.
+      if (
+        direcao === 1 &&
+        (alvo >= cards.length || posicaoDoCartao(cards[alvo]!) > limiteDireito)
+      ) {
+        vp.scrollTo({ left: Math.max(0, vp.scrollLeft - distanciaDoCiclo) });
+        atual -= tamanhoDoCiclo;
+        alvo = atual + 1;
+        reposicionado = true;
       }
-    }
-  }, [indiceMaisProximo]);
+      if (direcao === -1 && (alvo < 0 || posicaoDoCartao(cards[alvo]!) < 0)) {
+        vp.scrollTo({ left: Math.min(limiteDireito, vp.scrollLeft + distanciaDoCiclo) });
+        atual += tamanhoDoCiclo;
+        alvo = atual - 1;
+        reposicionado = true;
+      }
+
+      const proximoCartao = cards[alvo];
+      if (proximoCartao) {
+        const irPara = () =>
+          vp.scrollTo({
+            left: posicaoDoCartao(proximoCartao),
+            behavior: "smooth",
+          });
+        if (reposicionado) {
+          requestAnimationFrame(irPara);
+        } else {
+          irPara();
+        }
+      }
+    },
+    [indiceMaisProximo],
+  );
 
   useEffect(() => {
     const vp = viewportRef.current;
     if (!vp) return;
-    const primeiroCartaoDoMeio = vp.querySelectorAll<HTMLElement>("[data-depo-card]")[depoimentos.length];
+    const primeiroCartaoDoMeio =
+      vp.querySelectorAll<HTMLElement>("[data-depo-card]")[depoimentos.length];
     if (primeiroCartaoDoMeio) {
       const margemDeVisibilidade = Math.min(56, vp.clientWidth * 0.12);
       vp.scrollTo({ left: primeiroCartaoDoMeio.offsetLeft - vp.offsetLeft - margemDeVisibilidade });
@@ -171,7 +188,10 @@ export function ProvaSocial() {
   }, [indiceMaisProximo]);
 
   return (
-    <section aria-label="Depoimentos de famílias" className="bg-campaign-mist pb-10 pt-16 md:pb-12 md:pt-16">
+    <section
+      aria-label="Depoimentos de famílias"
+      className="bg-campaign-mist pb-10 pt-16 md:pb-12 md:pt-16"
+    >
       <div className="mx-auto max-w-[1280px] px-6">
         <div className="grid gap-8 md:grid-cols-12">
           <div className="md:col-span-7">
@@ -184,7 +204,7 @@ export function ProvaSocial() {
           </div>
           <p className="md:col-span-5 text-base leading-relaxed text-foreground/75">
             Escolher uma escola envolve expectativas, dúvidas e sonhos. Cada família chega com uma
-            necessidade diferente — mais autonomia, acompanhamento próximo, adaptação acolhedora ou
+            necessidade diferente: mais autonomia, acompanhamento próximo, adaptação acolhedora ou
             formação alinhada aos seus valores. Conheça histórias reais de famílias que encontraram
             aqui um ambiente preparado para acompanhar o desenvolvimento dos filhos.
           </p>
@@ -213,7 +233,10 @@ export function ProvaSocial() {
           >
             <ChevronRight className="h-5 w-5" />
           </button>
-          <div className="flex items-center gap-2 md:hidden" aria-label={`Depoimento ${indiceAtivo + 1} de ${depoimentos.length}`}>
+          <div
+            className="flex items-center gap-2 md:hidden"
+            aria-label={`Depoimento ${indiceAtivo + 1} de ${depoimentos.length}`}
+          >
             {depoimentos.map((d, i) => (
               <span
                 key={d.necessidade}

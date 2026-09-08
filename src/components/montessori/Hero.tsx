@@ -369,7 +369,7 @@ export function Hero() {
 
             <a
               href="#agende"
-              aria-label="Matrículas abertas — agende sua visita"
+              aria-label="Matrículas abertas: agende sua visita"
               onClick={(e) => {
                 const el = document.getElementById("agende");
                 if (el) {

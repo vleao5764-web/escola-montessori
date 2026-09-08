@@ -1,15 +1,80 @@
-import desenhoChef from "@/assets/desenhos/Desenho_02.png.asset.json";
-import desenhoPulso from "@/assets/desenhos/Desenho_10.png.asset.json";
+import { useEffect, useRef } from "react";
 import fotoRotina from "@/assets/dia-a-dia-08.png";
+import fotoArtesanato from "@/assets/fotos-reais/integral-artesanato.jpg";
+import fotoCozinha from "@/assets/fotos-reais/integral-cozinha.png";
+import fotoHorta from "@/assets/fotos-reais/integral-horta.png";
+import fotoPiscina from "@/assets/fotos-reais/integral-piscina.png";
+
+const experiencias = [
+  {
+    titulo: "Acompanhamento",
+    atividades: ["Apoio pedagógico", "Inglês"],
+  },
+  {
+    titulo: "Corpo em movimento",
+    atividades: ["Recreação aquática", "Poliesportivo", "Psicomotricidade", "Cheerleading"],
+  },
+  {
+    titulo: "Expressão e estratégia",
+    atividades: ["Teatro", "Musicalização", "Oficinas criativas", "Xadrez"],
+  },
+  {
+    titulo: "Mão na massa",
+    atividades: ["Cozinha experimental", "Artesanato", "Costura", "Horta"],
+  },
+];
+
+const fotos = [
+  {
+    src: fotoRotina,
+    alt: "Aluno em atividade de desenho na Escola Montessori",
+  },
+  { src: fotoPiscina, alt: "Crianças em recreação aquática" },
+  { src: fotoArtesanato, alt: "Aluno em atividade de artesanato" },
+  { src: fotoCozinha, alt: "Alunas em atividade de cozinha experimental" },
+  { src: fotoHorta, alt: "Aluna cuidando da horta da escola" },
+];
 
 export function Integral() {
+  const carrosselRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const carrossel = carrosselRef.current;
+    if (!carrossel) return;
+
+    let indice = 0;
+    let retorno: number | undefined;
+
+    const avancar = () => {
+      const proximoIndice = indice + 1;
+      const proximoSlide = carrossel.children[proximoIndice] as HTMLElement | undefined;
+      if (!proximoSlide) return;
+
+      carrossel.scrollTo({ left: proximoSlide.offsetLeft, behavior: "smooth" });
+      indice = proximoIndice;
+
+      if (indice === fotos.length) {
+        retorno = window.setTimeout(() => {
+          carrossel.scrollTo({ left: 0, behavior: "auto" });
+          indice = 0;
+        }, 750);
+      }
+    };
+
+    const intervalo = window.setInterval(avancar, 4200);
+    return () => {
+      window.clearInterval(intervalo);
+      if (retorno) window.clearTimeout(retorno);
+    };
+  }, []);
+
   return (
     <section
       aria-label="Montessori Integral e aulas especializadas"
-      className="bg-amarelo pb-16 pt-6 md:pb-16 md:pt-16"
+      className="bg-amarelo pb-16 pt-6 md:pb-20 md:pt-16"
     >
       <div className="mx-auto max-w-[1280px] px-6">
-        <header className="grid gap-6 lg:grid-cols-12 lg:items-end">
+        <header className="grid gap-10 lg:grid-cols-12 lg:items-start">
           <div className="lg:col-span-7">
             <span className="inline-block rounded-full bg-footer px-4 py-2 font-display text-[0.68rem] font-extrabold uppercase tracking-[0.24em] text-white">
               Montessori Integral
@@ -19,48 +84,68 @@ export function Integral() {
               <br />
               <span className="whitespace-nowrap">de experiências.</span>
             </h2>
+            <p className="mt-6 max-w-xl text-base leading-relaxed text-footer">
+              O Montessori Integral amplia as experiências ao longo da rotina escolar, unindo
+              acompanhamento pedagógico a atividades culturais, esportivas, recreativas e práticas.
+            </p>
+            <div className="mt-5 max-w-xl text-footer">
+              <p className="font-display text-[0.68rem] font-extrabold uppercase tracking-[0.24em]">
+                Um dia completo
+              </p>
+              <p className="mt-2 font-display text-xl font-extrabold leading-tight sm:text-2xl">
+                Experiências que ampliam o aprender.
+              </p>
+            </div>
           </div>
-          <p className="max-w-md text-base leading-relaxed text-footer lg:col-span-5 lg:pb-3">
-            O Montessori Integral amplia as experiências ao longo da rotina escolar, unindo
-            acompanhamento pedagógico a atividades culturais, esportivas, recreativas e práticas.
-          </p>
+
+          <div className="lg:col-span-5 lg:pt-2">
+            <p className="font-display text-[0.68rem] font-extrabold uppercase tracking-[0.24em] text-footer">
+              Atividades que fazem parte da rotina
+            </p>
+            <div className="mt-5 border-t-2 border-footer/20">
+              {experiencias.map((experiencia) => (
+                <article
+                  key={experiencia.titulo}
+                  className="border-b-2 border-footer/20 pb-8 pt-4 sm:pb-10 sm:pt-5"
+                >
+                  <span className="inline-flex rounded-full bg-footer px-3 py-1 font-display text-[0.65rem] font-extrabold uppercase tracking-[0.18em] text-white">
+                    {experiencia.titulo}
+                  </span>
+                  <ul className="mt-2 grid gap-x-6 gap-y-2 text-base font-semibold leading-snug text-marrom sm:grid-cols-2">
+                    {experiencia.atividades.map((atividade) => (
+                      <li key={atividade} className="flex items-center gap-2">
+                        <span
+                          className="h-2 w-2 shrink-0 rounded-full bg-campaign-blue"
+                          aria-hidden="true"
+                        />
+                        {atividade}
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+            </div>
+          </div>
         </header>
 
-        {/* composição editorial — distinta da grade de ambientes */}
-        <div className="mt-12 grid gap-5 lg:grid-cols-12">
-          <article className="relative min-h-[27rem] overflow-hidden rounded-[28px] lg:col-span-7 lg:row-span-2">
-            <img src={fotoRotina} alt="Aluno em atividade de desenho na Escola Montessori" loading="lazy" className="absolute inset-0 h-full w-full object-cover object-[center_38%]" />
-            <div className="absolute inset-0 bg-gradient-to-t from-campaign-deep-purple/90 via-campaign-deep-purple/15 to-transparent" />
-            <div className="absolute inset-x-0 bottom-0 p-7 md:p-9">
-              <span className="font-display text-[0.65rem] font-extrabold uppercase tracking-[0.24em] text-campaign-orange">Um dia completo</span>
-              <h3 className="mt-3 max-w-md font-display text-[1.7rem] font-extrabold leading-tight text-white sm:text-3xl md:text-4xl">Experiências que ampliam o aprender.</h3>
-            </div>
-          </article>
-
-          <article className="rounded-[28px] bg-footer p-7 lg:col-span-5">
-            <span className="font-display text-[0.65rem] font-extrabold uppercase tracking-[0.24em] text-campaign-orange">Acompanhamento</span>
-            <h3 className="mt-3 font-display text-3xl font-extrabold text-white">Apoio pedagógico e Inglês</h3>
-            <p className="mt-3 text-sm leading-relaxed text-white/75">Tempo, atenção e repertório para cada etapa da jornada.</p>
-          </article>
-
-          <article className="relative overflow-hidden rounded-[28px] bg-campaign-blue p-7 lg:col-span-5">
-            <img src={desenhoPulso.url} alt="" aria-hidden="true" loading="lazy" className="pointer-events-none absolute right-5 top-5 w-14 opacity-40" />
-            <span className="font-display text-[0.65rem] font-extrabold uppercase tracking-[0.24em] text-white/80">Corpo em movimento</span>
-            <p className="mt-3 max-w-sm font-display text-2xl font-extrabold leading-tight text-white">Recreação aquática · Poliesportivo · Psicomotricidade · Cheerleading</p>
-          </article>
-
-          <article className="relative overflow-hidden rounded-[28px] bg-[#64a33d] p-7 lg:col-span-5">
-            <span className="font-display text-[0.65rem] font-extrabold uppercase tracking-[0.24em] text-white/80">Expressão e estratégia</span>
-            <p className="mt-3 font-display text-2xl font-extrabold leading-tight text-white">Teatro · Musicalização · Oficinas criativas · Xadrez</p>
-          </article>
-
-          <article className="relative min-h-56 overflow-hidden rounded-[28px] bg-[#d37e26] p-7 lg:col-span-7">
-            <img src={desenhoChef.url} alt="" aria-hidden="true" loading="lazy" className="pointer-events-none absolute bottom-5 right-6 w-16 opacity-45" />
-            <div className="relative max-w-xl">
-              <span className="font-display text-[0.65rem] font-extrabold uppercase tracking-[0.24em] text-white/85">Mão na massa</span>
-              <h3 className="mt-3 font-display text-3xl font-extrabold leading-tight text-white md:text-4xl">Cozinha experimental, artesanato, costura e horta.</h3>
-            </div>
-          </article>
+        <div
+          ref={carrosselRef}
+          className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mt-14 md:gap-5"
+          aria-label="Fotos das atividades do Montessori Integral"
+        >
+          {[...fotos, fotos[0]!].map((foto, indice) => (
+            <figure
+              key={`${foto.alt}-${indice}`}
+              className="relative h-72 w-[80%] shrink-0 snap-start overflow-hidden rounded-[24px] sm:w-[46%] md:h-96 lg:w-[31%]"
+            >
+              <img
+                src={foto.src}
+                alt={foto.alt}
+                loading="lazy"
+                className="h-full w-full object-cover"
+              />
+            </figure>
+          ))}
         </div>
       </div>
     </section>

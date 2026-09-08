@@ -5,6 +5,8 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { basename, extname, join } from "node:path";
 import { loadEnv } from "vite";
 
 const localEnv = loadEnv("development", process.cwd(), "");
@@ -14,6 +16,37 @@ if (localEnv["LOVABLE_PREVIEW_HOST"]) {
 
 export default defineConfig({
   vite: {
+    plugins: [
+      {
+        name: "serve-local-lovable-assets",
+        configureServer(server) {
+          const assetsRoot = join(process.cwd(), "public", "lovable-assets");
+          const filesByName = new Map(
+            readdirSync(assetsRoot, { recursive: true })
+              .filter((entry) => typeof entry === "string")
+              .map((entry) => [basename(entry), join(assetsRoot, entry)]),
+          );
+
+          server.middlewares.use((request, response, next) => {
+            const pathname = request.url?.split("?")[0] ?? "";
+            if (!pathname.startsWith("/__l5e/assets-v1/")) return next();
+
+            const assetPath = filesByName.get(basename(pathname));
+            if (!assetPath || !existsSync(assetPath)) return next();
+
+            const mimeType =
+              {
+                ".png": "image/png",
+                ".webp": "image/webp",
+                ".woff2": "font/woff2",
+              }[extname(assetPath)] ?? "application/octet-stream";
+
+            response.setHeader("Content-Type", mimeType);
+            response.end(readFileSync(assetPath));
+          });
+        },
+      },
+    ],
     server: {
       allowedHosts: [".lhr.life"],
     },

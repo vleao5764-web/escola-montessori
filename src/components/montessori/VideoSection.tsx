@@ -49,7 +49,7 @@ export function VideoSection() {
 
           <div className="mt-6 space-y-4 text-base leading-relaxed text-white/90 sm:text-lg">
             <p>
-              Antes de aprender conteúdos, existe uma base — construída pela curiosidade, pela
+              Antes de aprender conteúdos, existe uma base construída pela curiosidade, pela
               autonomia, pela convivência e pela capacidade de descobrir novas possibilidades.
             </p>
             <p>
@@ -62,7 +62,6 @@ export function VideoSection() {
             </p>
           </div>
 
-          <p className="mt-6 font-display text-lg font-bold sm:text-xl">Escola Montessori.</p>
         </div>
       </div>
     </section>

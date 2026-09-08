@@ -3,7 +3,7 @@ import logoWhite from "@/assets/logo-horizontal-branco.png.asset.json";
 
 export function Logo({ dark = false }: { dark?: boolean }) {
   return (
-    <a href="#topo" className="inline-flex items-center" aria-label="Escola Montessori — início">
+    <a href="#topo" className="inline-flex items-center" aria-label="Escola Montessori: início">
       <img
         src={dark ? logoWhite.url : logoColor.url}
         alt="Escola Montessori"

@@ -77,14 +77,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Escola Montessori Brasília — Matrículas 2027" },
+      { title: "Escola Montessori Brasília: Matrículas 2027" },
       {
         name: "description",
         content:
-          "Escola Montessori em Brasília — método Montessori desde 1970, do Maternal ao 9º ano. Matrículas 2027 abertas.",
+          "Escola Montessori em Brasília: método Montessori desde 1970, do Maternal ao 9º ano. Matrículas 2027 abertas.",
       },
       { name: "author", content: "Escola Montessori" },
-      { property: "og:title", content: "Escola Montessori Brasília — Matrículas 2027" },
+      { property: "og:title", content: "Escola Montessori Brasília: Matrículas 2027" },
       {
         property: "og:description",
         content: "Uma educação que respeita o potencial de cada aluno. Agende sua visita.",

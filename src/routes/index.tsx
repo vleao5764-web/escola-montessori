@@ -16,13 +16,13 @@ import { Fechamento } from "@/components/montessori/Fechamento";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Escola Montessori Brasília — Matrículas 2027 Abertas" },
+      { title: "Escola Montessori Brasília: Matrículas 2027 Abertas" },
       {
         name: "description",
         content:
-          "Do Maternal ao 9º ano, método Montessori desde 1970 em Brasília. Matrículas 2027 abertas — agende sua visita e conheça nossa escola.",
+          "Do Maternal ao 9º ano, método Montessori desde 1970 em Brasília. Matrículas 2027 abertas: agende sua visita e conheça nossa escola.",
       },
-      { property: "og:title", content: "Escola Montessori Brasília — Matrículas 2027 Abertas" },
+      { property: "og:title", content: "Escola Montessori Brasília: Matrículas 2027 Abertas" },
       {
         property: "og:description",
         content:
