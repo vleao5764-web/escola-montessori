@@ -204,8 +204,8 @@
   background-image: linear-gradient(
     100deg,
     transparent 1%,
-    var(--roxo) 3%,
-    var(--roxo) 97%,
+    var(--highlight-color, var(--roxo)) 3%,
+    var(--highlight-color, var(--roxo)) 97%,
     transparent 99%
   );
   background-repeat: no-repeat;
