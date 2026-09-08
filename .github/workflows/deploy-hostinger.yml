@@ -12,7 +12,6 @@ concurrency:
 jobs:
   deploy:
     name: Publicar matrículas 2027
-    if: ${{ secrets.HOSTINGER_FTP_HOST != '' && secrets.HOSTINGER_FTP_USERNAME != '' && secrets.HOSTINGER_FTP_PASSWORD != '' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
