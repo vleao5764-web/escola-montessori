@@ -310,13 +310,6 @@ export function Hero() {
               Uma educação que respeita o potencial de cada aluno, desenvolve autonomia e prepara
               para os desafios de toda uma jornada.
             </p>
-
-            <p className="hero-in hero-in-3 mx-auto mt-4 hidden max-w-md text-[clamp(0.9rem,1.05vw,1rem)] font-semibold leading-snug text-white/85 lg:relative lg:z-30 lg:mx-0 lg:block lg:w-[24rem] lg:max-w-none">
-              <span className="highlighter-roxo">
-                Na Escola Montessori, cada aluno encontra um ambiente preparado para aprender,
-                descobrir e construir <span className="whitespace-nowrap">seu próprio caminho.</span>
-              </span>
-            </p>
           </div>
 
           {/* No celular, o texto vem antes do aluno para não competir visualmente com os cubos. */}
@@ -324,12 +317,6 @@ export function Hero() {
             <p className="text-balance text-[0.95rem] font-medium leading-[1.4] text-white/90">
               Uma educação que respeita o potencial de cada aluno, desenvolve autonomia e prepara
               para os desafios de toda uma jornada.
-            </p>
-            <p className="mt-4 text-balance text-[0.9rem] font-semibold leading-[1.4] text-white/85">
-              <span className="highlighter-roxo">
-                Na Escola Montessori, cada aluno encontra um ambiente preparado para aprender,
-                descobrir e construir seu próprio caminho.
-              </span>
             </p>
           </div>
 
@@ -359,6 +346,20 @@ export function Hero() {
 
           {/* ZONA 3 — informações e CTA */}
           <div className="relative z-20 order-4 flex flex-col items-center gap-5 lg:order-3 lg:items-start">
+            <p className="hero-in hero-in-3 w-full max-w-[21rem] text-center text-[clamp(0.9rem,1.05vw,1rem)] font-semibold leading-[1.4] lg:text-left">
+              <span
+                className="highlighter-roxo"
+                style={
+                  level.id === "fund1"
+                    ? ({ "--highlight-color": "var(--campaign-orange)" } as React.CSSProperties)
+                    : undefined
+                }
+              >
+                Na Escola Montessori, cada aluno encontra um ambiente preparado para aprender,
+                descobrir e construir{" "}
+                <span className="whitespace-nowrap">seu próprio caminho.</span>
+              </span>
+            </p>
             <img
               src={ensinosTurnos.url}
               alt="Do Maternal ao 9º ano · Turnos matutino, vespertino e integral"
