@@ -43,8 +43,8 @@ export function VideoSection() {
             id="video-titulo"
             className="font-display text-3xl font-bold leading-tight sm:text-4xl lg:text-[2.75rem]"
           >
-            O que seu filho constrói hoje,{" "}
-            <span className="text-amarelo">molda quem ele será amanhã.</span>
+            Cada descoberta,{" "}
+            <span className="text-amarelo">um novo passo para crescer.</span>
           </h2>
 
           <div className="mt-6 space-y-4 text-base leading-relaxed text-white/90 sm:text-lg">

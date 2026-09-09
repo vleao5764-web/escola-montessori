@@ -464,6 +464,7 @@
     max-width: none !important;
     max-height: none !important;
     margin-left: 3.5rem;
+    translate: clamp(24px, 2.5vw, 40px) 0;
   }
 }
 

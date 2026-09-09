@@ -18,7 +18,8 @@ import alunoFund2 from "@/assets/aluno-fund2.webp.asset.json";
 import tagInfantil from "@/assets/tag-infantil.png.asset.json";
 import tagFund1 from "@/assets/tag-fund1.png.asset.json";
 import tagFund2 from "@/assets/tag-fund2.png.asset.json";
-import tag2027 from "@/assets/tag-2027.png.asset.json";
+import apoioInfantil from "@/assets/hero-apoio-infantil.png";
+import apoioFundamental from "@/assets/hero-apoio-fundamental.png";
 
 import seloInfantil from "@/assets/selo-matriculas-infantil.png.asset.json";
 import seloFund1 from "@/assets/selo-matriculas-fund1.png.asset.json";
@@ -234,18 +235,6 @@ export function Hero() {
         ))}
       </div>
 
-      {/* Desenhos oficiais em traço branco */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        {level.desenhos.map((d) => (
-          <img
-            key={d.src}
-            src={d.src}
-            alt=""
-            className={`hero-doodle absolute hidden opacity-70 sm:block ${d.className}`}
-          />
-        ))}
-      </div>
-
       <div className="relative mx-auto flex w-full max-w-[86rem] flex-1 flex-col px-5 pb-10 pt-[6.5rem] sm:px-8 lg:pb-8 lg:pt-[clamp(6rem,10vh,7.5rem)]">
         {/* Seletor de segmento — tags oficiais como botões */}
         <div
@@ -282,7 +271,14 @@ export function Hero() {
         {/* Composição editorial em 3 zonas */}
         <div className="grid flex-1 items-center gap-6 pt-6 lg:grid-cols-[minmax(0,1.02fr)_minmax(0,1.06fr)_minmax(0,0.82fr)] lg:gap-3 lg:pt-2">
           {/* ZONA 1 — slogan */}
-          <div className="relative z-20 order-1 text-center lg:text-left">
+          <div className="relative z-20 order-1 self-start text-center lg:pt-[clamp(2.5rem,6vh,4.5rem)] lg:text-left">
+            <img
+              key={`doodle-left-${level.id}`}
+              src={level.desenhos[0]!.src}
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none absolute left-[18%] top-[calc(100%+2rem)] hidden h-16 w-16 -rotate-12 object-contain opacity-80 lg:block xl:h-20 xl:w-20"
+            />
             <h1 className="hero-in hero-in-2">
               <span className="hero-mask block">
                 <img
@@ -299,10 +295,11 @@ export function Hero() {
 
             <div className="hero-in hero-in-3 mt-4 flex justify-center lg:justify-start">
               <img
-                src={tag2027.url}
-                alt="2027"
-                className="h-auto w-auto"
-                style={{ height: "clamp(1.9rem,4vh,2.9rem)", objectFit: "contain" }}
+                src={level.id === "infantil" ? apoioInfantil : apoioFundamental}
+                alt="Texto de apoio da campanha de matrículas"
+                width={6681}
+                height={1361}
+                className="h-auto w-full max-w-[min(32rem,80vw)] object-contain lg:max-w-[clamp(20rem,32vw,30rem)]"
               />
             </div>
 
@@ -345,7 +342,14 @@ export function Hero() {
           </div>
 
           {/* ZONA 3 — informações e CTA */}
-          <div className="relative z-20 order-4 flex flex-col items-center gap-5 lg:order-3 lg:items-start">
+          <div className="relative z-20 order-4 flex flex-col items-center gap-5 lg:order-3 lg:self-start lg:items-start lg:pt-[clamp(2.5rem,6vh,4.5rem)]">
+            <img
+              key={`doodle-right-${level.id}`}
+              src={level.desenhos[1]!.src}
+              alt=""
+              aria-hidden="true"
+              className="pointer-events-none absolute top-[calc(100%+1.5rem)] right-[12%] hidden h-16 w-16 rotate-12 object-contain opacity-80 lg:block xl:h-20 xl:w-20"
+            />
             <p className="hero-in hero-in-3 w-full max-w-[21rem] text-center text-[clamp(0.9rem,1.05vw,1rem)] font-semibold leading-[1.4] lg:text-left">
               <span
                 className="highlighter-roxo"

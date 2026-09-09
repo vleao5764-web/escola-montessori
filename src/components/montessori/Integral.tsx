@@ -1,9 +1,10 @@
-import { useEffect, useRef } from "react";
 import fotoRotina from "@/assets/dia-a-dia-08.png";
 import fotoArtesanato from "@/assets/fotos-reais/integral-artesanato.jpg";
 import fotoCozinha from "@/assets/fotos-reais/integral-cozinha.png";
 import fotoHorta from "@/assets/fotos-reais/integral-horta.png";
+import fotoMovimento from "@/assets/fotos-reais/integral-movimento.png";
 import fotoPiscina from "@/assets/fotos-reais/integral-piscina.png";
+import fotoSala from "@/assets/fotos-reais/integral-sala.png";
 
 const experiencias = [
   {
@@ -33,41 +34,11 @@ const fotos = [
   { src: fotoArtesanato, alt: "Aluno em atividade de artesanato" },
   { src: fotoCozinha, alt: "Alunas em atividade de cozinha experimental" },
   { src: fotoHorta, alt: "Aluna cuidando da horta da escola" },
+  { src: fotoMovimento, alt: "Aluno em atividade de movimento na Escola Montessori" },
+  { src: fotoSala, alt: "Alunos em atividade em sala na Escola Montessori" },
 ];
 
 export function Integral() {
-  const carrosselRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const carrossel = carrosselRef.current;
-    if (!carrossel) return;
-
-    let indice = 0;
-    let retorno: number | undefined;
-
-    const avancar = () => {
-      const proximoIndice = indice + 1;
-      const proximoSlide = carrossel.children[proximoIndice] as HTMLElement | undefined;
-      if (!proximoSlide) return;
-
-      carrossel.scrollTo({ left: proximoSlide.offsetLeft, behavior: "smooth" });
-      indice = proximoIndice;
-
-      if (indice === fotos.length) {
-        retorno = window.setTimeout(() => {
-          carrossel.scrollTo({ left: 0, behavior: "auto" });
-          indice = 0;
-        }, 750);
-      }
-    };
-
-    const intervalo = window.setInterval(avancar, 4200);
-    return () => {
-      window.clearInterval(intervalo);
-      if (retorno) window.clearTimeout(retorno);
-    };
-  }, []);
-
   return (
     <section
       aria-label="Montessori Integral e aulas especializadas"
@@ -129,24 +100,43 @@ export function Integral() {
         </header>
 
         <div
-          ref={carrosselRef}
-          className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:mt-14 md:gap-5"
+          className="mt-10 overflow-hidden md:mt-14"
           aria-label="Fotos das atividades do Montessori Integral"
         >
-          {[...fotos, fotos[0]!].map((foto, indice) => (
-            <figure
-              key={`${foto.alt}-${indice}`}
-              className="relative h-72 w-[80%] shrink-0 snap-start overflow-hidden rounded-[24px] sm:w-[46%] md:h-96 lg:w-[31%]"
-            >
-              <img
-                src={foto.src}
-                alt={foto.alt}
-                loading="lazy"
-                className="h-full w-full object-cover"
-              />
-            </figure>
-          ))}
+          <div className="flex w-max motion-reduce:animate-none animate-[integral-carousel_34s_linear_infinite]">
+            <div className="flex shrink-0 gap-4 pr-4 md:gap-5 md:pr-5">
+              {fotos.map((foto, indice) => (
+                <figure
+                  key={`${foto.alt}-${indice}`}
+                  className="h-72 w-[80vw] shrink-0 overflow-hidden rounded-[24px] sm:w-[46vw] md:h-96 lg:w-[31vw] xl:w-[24rem]"
+                >
+                  <img
+                    src={foto.src}
+                    alt={foto.alt}
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                  />
+                </figure>
+              ))}
+            </div>
+            <div className="flex shrink-0 gap-4 pr-4 md:gap-5 md:pr-5" aria-hidden="true">
+              {fotos.map((foto, indice) => (
+                <figure
+                  key={`copia-${foto.alt}-${indice}`}
+                  className="h-72 w-[80vw] shrink-0 overflow-hidden rounded-[24px] sm:w-[46vw] md:h-96 lg:w-[31vw] xl:w-[24rem]"
+                >
+                  <img
+                    src={foto.src}
+                    alt=""
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                  />
+                </figure>
+              ))}
+            </div>
+          </div>
         </div>
+        <style>{`@keyframes integral-carousel { from { transform: translateX(0); } to { transform: translateX(-50%); } }`}</style>
       </div>
     </section>
   );
