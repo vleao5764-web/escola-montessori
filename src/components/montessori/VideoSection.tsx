@@ -23,7 +23,7 @@ export function VideoSection() {
           <div className="relative aspect-video w-full overflow-hidden rounded-[2rem] border-8 border-white bg-[#2a1782] shadow-2xl">
             <iframe
               className="h-full w-full"
-              src="https://www.youtube.com/embed/zUtXl_BJDkU"
+              src="https://www.youtube.com/embed/zUtXl_BJDkU?cc_load_policy=0"
               title="Vídeo institucional da Escola Montessori"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
