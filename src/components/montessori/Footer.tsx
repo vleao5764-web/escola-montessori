@@ -5,7 +5,7 @@ import desenho04 from "@/assets/desenhos/Desenho_04.png.asset.json";
 import desenho07 from "@/assets/desenhos/Desenho_07.png.asset.json";
 import desenho14 from "@/assets/desenhos/Desenho_14.png.asset.json";
 
-function WhatsAppIcon() {
+export function WhatsAppIcon() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="h-5 w-5 fill-none stroke-current stroke-[1.9]">
       <path d="M20 11.5a8 8 0 0 1-11.8 7L4 20l1.6-4.1A8 8 0 1 1 20 11.5Z" strokeLinejoin="round" />

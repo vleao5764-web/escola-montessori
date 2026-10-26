@@ -1,0 +1,23 @@
+-- Importar no banco leads2027. Preserva os cadastros e senhas existentes.
+CREATE TABLE IF NOT EXISTS lead_details (
+ lead_id CHAR(64) PRIMARY KEY,
+ owner_email VARCHAR(190) NOT NULL DEFAULT '',
+ next_contact DATETIME NULL,
+ visit_at DATETIME NULL,
+ visit_status VARCHAR(20) NOT NULL DEFAULT 'pendente',
+ version INT NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS lead_history (
+ id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+ lead_id CHAR(64) NOT NULL,
+ actor VARCHAR(190) NOT NULL,
+ note TEXT NOT NULL,
+ created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ INDEX (lead_id, id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS admin_profiles (
+ email VARCHAR(190) PRIMARY KEY,
+ name VARCHAR(150) NOT NULL,
+ active TINYINT NOT NULL DEFAULT 1,
+ must_change TINYINT NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

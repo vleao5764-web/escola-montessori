@@ -12,6 +12,7 @@ import { Integral } from "@/components/montessori/Integral";
 import { Historia } from "@/components/montessori/Historia";
 import { Agende } from "@/components/montessori/Agende";
 import { Fechamento } from "@/components/montessori/Fechamento";
+import { WhatsAppFloating } from "@/components/montessori/WhatsAppFloating";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -51,6 +52,7 @@ function Index() {
         <Fechamento />
       </main>
       <Footer />
+      <WhatsAppFloating />
     </div>
   );
 }

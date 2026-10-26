@@ -8,6 +8,10 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.tools/
+installation-package/
+montessori-private/
+hostinger-backend/config.php
 dist
 dist-ssr
 .output

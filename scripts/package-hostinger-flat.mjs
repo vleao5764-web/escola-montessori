@@ -96,3 +96,15 @@ for (const legalPath of ["politica-de-privacidade/index.html", "termos-de-uso/in
 }
 
 console.log(`Pacote sem pastas preparado com ${files.length} arquivos.`);
+
+// PHP endpoints must retain their paths and must never be flattened into public assets.
+await mkdir(join(destinationDir, "api"), { recursive: true });
+await mkdir(join(destinationDir, "admin"), { recursive: true });
+for (const name of ["bootstrap.php", "leads.php"]) {
+  await cp(join(projectRoot, "hostinger-backend", name), join(destinationDir, "api", name));
+}
+await cp(join(projectRoot, "hostinger-backend", "admin.php"), join(destinationDir, "admin", "index.php"));
+for (const name of ["crm.php", "panel.css", "panel.js"]) {
+  await cp(join(projectRoot, "hostinger-backend", name), join(destinationDir, "admin", name));
+}
+await cp(join(projectRoot, "public", "lovable-assets", "logo-horizontal-branco.png"), join(destinationDir, "admin", "logo-montessori.png"));

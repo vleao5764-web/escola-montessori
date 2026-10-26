@@ -14,7 +14,7 @@ function PrivacyPolicy() {
       sections={[
         {
           title: "1. Dados que podem ser coletados",
-          body: <p>Ao solicitar uma visita, podemos receber nome, telefone ou WhatsApp, segmento de interesse e turno desejado. Informações técnicas de navegação podem ser registradas automaticamente pelo navegador ou por serviços necessários ao funcionamento do site.</p>,
+          body: <p>Ao informar um WhatsApp válido no formulário, os dados preenchidos, como nome, telefone ou WhatsApp, segmento de interesse e turno desejado, são salvos progressivamente, mesmo sem concluir o envio. A secretaria poderá usar esses dados para entrar em contato sobre sua solicitação. Informações técnicas necessárias à segurança do serviço também podem ser processadas.</p>,
         },
         {
           title: "2. Para que usamos os dados",

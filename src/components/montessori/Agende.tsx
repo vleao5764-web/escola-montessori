@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import desenho from "@/assets/desenhos/Desenho_15.png.asset.json";
 
 type FormData = {
@@ -14,6 +14,47 @@ export function Agende() {
   const [data, setData] = useState<FormData>(initial);
   const [errors, setErrors] = useState<Partial<FormData>>({});
   const [sent, setSent] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState("");
+  const draftId = useRef("");
+  const queue = useRef<Promise<void>>(Promise.resolve());
+
+  function persist(values: FormData, submitted: boolean) {
+    if (!draftId.current) {
+      draftId.current = Array.from(crypto.getRandomValues(new Uint8Array(32)), (n) =>
+        n.toString(16).padStart(2, "0"),
+      ).join("");
+    }
+    const payload = { ...values, id: draftId.current, submitted };
+    const request = queue.current
+      .catch(() => {})
+      .then(async () => {
+        const response = await fetch("/api/leads.php", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+          keepalive: true,
+          signal: AbortSignal.timeout(15000),
+        });
+        if (!response.ok || (await response.json()).ok !== true) throw new Error("save");
+      });
+    queue.current = request;
+    return request;
+  }
+
+  useEffect(() => {
+    if (sent || saving || !/^(?:55)?[1-9]\d{9,10}$/.test(data.whatsapp.replace(/\D/g, ""))) return;
+    const timer = window.setTimeout(() => {
+      void persist(data, false).then(
+        () => setSaveError(""),
+        () =>
+          setSaveError(
+            "Não foi possível salvar seus dados. Verifique sua conexão e tente enviar novamente.",
+          ),
+      );
+    }, 900);
+    return () => window.clearTimeout(timer);
+  }, [data, sent, saving]);
 
   const set =
     (field: keyof FormData) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -21,15 +62,27 @@ export function Agende() {
       setErrors((er) => ({ ...er, [field]: undefined }));
     };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (saving) return;
     const er: Partial<FormData> = {};
     if (!data.nome.trim()) er.nome = "Informe seu nome.";
-    if (!data.whatsapp.trim()) er.whatsapp = "Informe seu WhatsApp.";
+    if (!/^(?:55)?[1-9]\d{9,10}$/.test(data.whatsapp.replace(/\D/g, "")))
+      er.whatsapp = "Informe um WhatsApp válido com DDD.";
     if (!data.segmento) er.segmento = "Escolha um segmento.";
     if (!data.turno) er.turno = "Escolha um turno.";
     setErrors(er);
-    if (Object.keys(er).length === 0) setSent(true);
+    if (Object.keys(er).length > 0) return;
+    setSaving(true);
+    setSaveError("");
+    try {
+      await persist(data, true);
+      setSent(true);
+    } catch {
+      setSaveError("Não foi possível enviar. Verifique sua conexão e tente novamente.");
+    } finally {
+      setSaving(false);
+    }
   };
 
   const inputClass =
@@ -78,7 +131,7 @@ export function Agende() {
             <div className="flex min-h-80 flex-col justify-center gap-4">
               <span className="h-2 w-20 bg-campaign-green" />
               <h3 className="font-display text-2xl font-bold text-campaign-deep-purple">
-                Visita agendada com sucesso!
+                Solicitação recebida com sucesso!
               </h3>
               <p className="leading-relaxed text-campaign-deep-purple/80">
                 Obrigado, {data.nome.split(" ")[0]}! Nossa equipe entrará em contato pelo WhatsApp
@@ -89,6 +142,8 @@ export function Agende() {
                 onClick={() => {
                   setData(initial);
                   setSent(false);
+                  draftId.current = "";
+                  setSaveError("");
                 }}
                 className="mt-2 inline-flex min-h-13 self-start items-center justify-center rounded-[14px] bg-campaign-deep-purple px-6 py-3 font-display font-extrabold text-white transition hover:-translate-y-0.5 hover:bg-campaign-purple focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-campaign-blue"
               >
@@ -100,110 +155,126 @@ export function Agende() {
               <h3 className="font-display text-2xl font-bold leading-tight text-campaign-deep-purple">
                 Agende sua visita
               </h3>
+              <p className="text-sm leading-relaxed text-campaign-deep-purple/80">
+                Ao informar seu WhatsApp, seus dados serão salvos durante o preenchimento para que a
+                secretaria possa entrar em contato, mesmo se você não concluir o envio. Consulte
+                nossa{" "}
+                <a className="underline" href="/politica-de-privacidade">
+                  Política de Privacidade
+                </a>
+                .
+              </p>
+              <fieldset disabled={saving} className="contents">
+                <div>
+                  <label htmlFor="nome" className={labelClass}>
+                    Nome
+                  </label>
+                  <input
+                    id="nome"
+                    type="text"
+                    autoComplete="name"
+                    placeholder="Seu nome completo"
+                    value={data.nome}
+                    onChange={set("nome")}
+                    aria-invalid={!!errors.nome}
+                    aria-describedby={errors.nome ? "erro-nome" : undefined}
+                    className={inputClass}
+                  />
+                  {errors.nome ? (
+                    <p id="erro-nome" role="alert" className={errorClass}>
+                      {errors.nome}
+                    </p>
+                  ) : null}
+                </div>
 
-              <div>
-                <label htmlFor="nome" className={labelClass}>
-                  Nome
-                </label>
-                <input
-                  id="nome"
-                  type="text"
-                  autoComplete="name"
-                  placeholder="Seu nome completo"
-                  value={data.nome}
-                  onChange={set("nome")}
-                  aria-invalid={!!errors.nome}
-                  aria-describedby={errors.nome ? "erro-nome" : undefined}
-                  className={inputClass}
-                />
-                {errors.nome ? (
-                  <p id="erro-nome" role="alert" className={errorClass}>
-                    {errors.nome}
-                  </p>
-                ) : null}
-              </div>
+                <div>
+                  <label htmlFor="whatsapp" className={labelClass}>
+                    WhatsApp
+                  </label>
+                  <input
+                    id="whatsapp"
+                    type="tel"
+                    inputMode="tel"
+                    autoComplete="tel"
+                    placeholder="(61) 9 9999-9999"
+                    value={data.whatsapp}
+                    onChange={set("whatsapp")}
+                    aria-invalid={!!errors.whatsapp}
+                    aria-describedby={errors.whatsapp ? "erro-whatsapp" : undefined}
+                    className={inputClass}
+                  />
+                  {errors.whatsapp ? (
+                    <p id="erro-whatsapp" role="alert" className={errorClass}>
+                      {errors.whatsapp}
+                    </p>
+                  ) : null}
+                </div>
 
-              <div>
-                <label htmlFor="whatsapp" className={labelClass}>
-                  WhatsApp
-                </label>
-                <input
-                  id="whatsapp"
-                  type="tel"
-                  inputMode="tel"
-                  autoComplete="tel"
-                  placeholder="(61) 9 9999-9999"
-                  value={data.whatsapp}
-                  onChange={set("whatsapp")}
-                  aria-invalid={!!errors.whatsapp}
-                  aria-describedby={errors.whatsapp ? "erro-whatsapp" : undefined}
-                  className={inputClass}
-                />
-                {errors.whatsapp ? (
-                  <p id="erro-whatsapp" role="alert" className={errorClass}>
-                    {errors.whatsapp}
-                  </p>
-                ) : null}
-              </div>
+                <div>
+                  <label htmlFor="segmento" className={labelClass}>
+                    Segmento de interesse
+                  </label>
+                  <select
+                    id="segmento"
+                    value={data.segmento}
+                    onChange={set("segmento")}
+                    aria-invalid={!!errors.segmento}
+                    aria-describedby={errors.segmento ? "erro-segmento" : undefined}
+                    className={inputClass}
+                  >
+                    <option value="" disabled>
+                      Selecione…
+                    </option>
+                    <option value="infantil">Educação Infantil</option>
+                    <option value="fund1">Fundamental I</option>
+                    <option value="fund2">Fundamental II</option>
+                  </select>
+                  {errors.segmento ? (
+                    <p id="erro-segmento" role="alert" className={errorClass}>
+                      {errors.segmento}
+                    </p>
+                  ) : null}
+                </div>
 
-              <div>
-                <label htmlFor="segmento" className={labelClass}>
-                  Segmento de interesse
-                </label>
-                <select
-                  id="segmento"
-                  value={data.segmento}
-                  onChange={set("segmento")}
-                  aria-invalid={!!errors.segmento}
-                  aria-describedby={errors.segmento ? "erro-segmento" : undefined}
-                  className={inputClass}
+                <div>
+                  <label htmlFor="turno" className={labelClass}>
+                    Turno
+                  </label>
+                  <select
+                    id="turno"
+                    value={data.turno}
+                    onChange={set("turno")}
+                    aria-invalid={!!errors.turno}
+                    aria-describedby={errors.turno ? "erro-turno" : undefined}
+                    className={inputClass}
+                  >
+                    <option value="" disabled>
+                      Selecione…
+                    </option>
+                    <option value="matutino">Matutino</option>
+                    <option value="vespertino">Vespertino</option>
+                    <option value="integral">Integral</option>
+                  </select>
+                  {errors.turno ? (
+                    <p id="erro-turno" role="alert" className={errorClass}>
+                      {errors.turno}
+                    </p>
+                  ) : null}
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="mt-2 inline-flex min-h-14 w-full items-center justify-center rounded-[14px] bg-campaign-orange px-8 py-4 font-display text-lg font-bold text-campaign-deep-purple shadow-[0_6px_0_0_var(--campaign-burnt-orange)] transition hover:translate-y-0.5 hover:shadow-[0_3px_0_0_var(--campaign-burnt-orange)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-campaign-deep-purple"
                 >
-                  <option value="" disabled>
-                    Selecione…
-                  </option>
-                  <option value="infantil">Educação Infantil</option>
-                  <option value="fund1">Fundamental I</option>
-                  <option value="fund2">Fundamental II</option>
-                </select>
-                {errors.segmento ? (
-                  <p id="erro-segmento" role="alert" className={errorClass}>
-                    {errors.segmento}
-                  </p>
-                ) : null}
-              </div>
-
-              <div>
-                <label htmlFor="turno" className={labelClass}>
-                  Turno
-                </label>
-                <select
-                  id="turno"
-                  value={data.turno}
-                  onChange={set("turno")}
-                  aria-invalid={!!errors.turno}
-                  aria-describedby={errors.turno ? "erro-turno" : undefined}
-                  className={inputClass}
-                >
-                  <option value="" disabled>
-                    Selecione…
-                  </option>
-                  <option value="matutino">Matutino</option>
-                  <option value="vespertino">Vespertino</option>
-                  <option value="integral">Integral</option>
-                </select>
-                {errors.turno ? (
-                  <p id="erro-turno" role="alert" className={errorClass}>
-                    {errors.turno}
-                  </p>
-                ) : null}
-              </div>
-
-              <button
-                type="submit"
-                className="mt-2 inline-flex min-h-14 w-full items-center justify-center rounded-[14px] bg-campaign-orange px-8 py-4 font-display text-lg font-bold text-campaign-deep-purple shadow-[0_6px_0_0_var(--campaign-burnt-orange)] transition hover:translate-y-0.5 hover:shadow-[0_3px_0_0_var(--campaign-burnt-orange)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-campaign-deep-purple"
-              >
-                Agendar minha visita
-              </button>
+                  {saving ? "Enviando…" : "Agendar minha visita"}
+                </button>
+              </fieldset>
+              {saveError && (
+                <p role="alert" className={errorClass}>
+                  {saveError}
+                </p>
+              )}
             </form>
           )}
         </div>
