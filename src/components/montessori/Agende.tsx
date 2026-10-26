@@ -156,9 +156,8 @@ export function Agende() {
                 Agende sua visita
               </h3>
               <p className="text-sm leading-relaxed text-campaign-deep-purple/80">
-                Ao informar seu WhatsApp, seus dados serão salvos durante o preenchimento para que a
-                secretaria possa entrar em contato, mesmo se você não concluir o envio. Consulte
-                nossa{" "}
+                Seus dados são salvos durante o preenchimento para contato da secretaria, mesmo sem
+                concluir o envio.{" "}
                 <a className="underline" href="/politica-de-privacidade">
                   Política de Privacidade
                 </a>
